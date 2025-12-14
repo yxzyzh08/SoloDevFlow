@@ -738,6 +738,30 @@
         "docs/PRD/modules/状态管理模块-PRD.md（3.5节完整设计）",
         "docs/PRD/modules/命令体系模块-PRD.md（4.2节完整设计、故事11更新）"
       ]
+    },
+    {
+      "timestamp": "2025-12-15T01:00:00Z",
+      "type": "requirements_supplement",
+      "description": "完善章节ID规范，补充设计理念和统一标注规则",
+      "changedBy": "ai",
+      "trigger": "用户提问为什么有些章节没ID，以及章节规范属于哪个模块",
+      "changes": [
+        {
+          "field": "docs/PRD/modules/文档模板模块-PRD.md 4.4.2节",
+          "from": "基础章节ID规范（格式、示例、必须标注章节表）",
+          "to": "完善章节ID规范（+设计理念、+统一标注规则、+各文档类型详细规范、+PRD注释统一要求）"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/modules/文档模板模块-PRD.md（4.4.2节完善）"
+      ],
+      "specifications": {
+        "设计理念": ["选择性标注", "减少维护负担", "按需标注"],
+        "PRD模块必须标注": ["功能点清单/命令清单", "数据模型", "验收标准"],
+        "架构文档必须标注": ["技术架构", "Schema定义", "接口定义", "集成点"],
+        "测试文档必须标注": ["用例清单", "测试结果"],
+        "部署文档必须标注": ["前置条件", "部署步骤", "回滚步骤"]
+      }
     }
   ],
   "settings": {
@@ -748,9 +772,9 @@
     "lastGitCommit": "84cdad0",
     "lastGitCommitMessage": "feat(prd): 完善上下文加载能力设计，补充6项评审反馈",
     "lastGitCommitAt": "2025-12-15T00:00:00Z",
-    "stateFileVersion": 15,
-    "totalStateChanges": 15,
-    "lastUpdatedAt": "2025-12-15T00:00:00Z",
+    "stateFileVersion": 16,
+    "totalStateChanges": 16,
+    "lastUpdatedAt": "2025-12-15T01:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
