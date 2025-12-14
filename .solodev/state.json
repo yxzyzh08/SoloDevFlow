@@ -658,6 +658,39 @@
           "归属模块": "状态管理模块"
         }
       }
+    },
+    {
+      "timestamp": "2025-12-14T20:00:00Z",
+      "type": "requirements_supplement",
+      "description": "补充文档引用验证需求到文档模板模块PRD",
+      "changedBy": "ai",
+      "trigger": "用户指出文档间引用关系可能在更新过程中丢失或错误引用，需要程序验证",
+      "changes": [
+        {
+          "field": "docs/PRD/modules/文档模板模块-PRD.md 4.4节",
+          "from": null,
+          "to": "新增'文档引用验证'完整设计（章节ID规范、引用格式规范、验证接口、验证规则、执行时机、引用图谱）"
+        },
+        {
+          "field": "docs/PRD/modules/文档模板模块-PRD.md 3.2节",
+          "from": "5个模块",
+          "to": "6个模块（新增'文档引用验证'模块）"
+        },
+        {
+          "field": "docs/PRD/modules/文档模板模块-PRD.md 用户故事",
+          "from": "13个故事",
+          "to": "16个故事（新增故事14-16：引用验证、章节ID检查、引用图谱维护）"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/modules/文档模板模块-PRD.md（4.4 文档引用验证）",
+        "docs/PRD/modules/文档模板模块-PRD.md（故事14-16）"
+      ],
+      "specifications": {
+        "章节ID格式": "{文档类型}-{模块名}-{章节编号}",
+        "验证接口": ["validateDocumentReferences()", "scanAllReferences()", "checkSectionIdCoverage()"],
+        "验证规则": ["文件存在性检查", "章节ID存在性检查", "必须章节ID检查", "内容一致性检查"]
+      }
     }
   ],
   "settings": {
@@ -665,12 +698,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "52735e6",
-    "lastGitCommitMessage": "docs(PRD): 澄清上下文加载为产品能力（代码实现）",
-    "lastGitCommitAt": "2025-12-14T19:00:00Z",
-    "stateFileVersion": 13,
-    "totalStateChanges": 13,
-    "lastUpdatedAt": "2025-12-14T19:00:00Z",
+    "lastGitCommit": "c59bbdf",
+    "lastGitCommitMessage": "feat(prd): 添加文档引用验证需求",
+    "lastGitCommitAt": "2025-12-14T20:00:00Z",
+    "stateFileVersion": 14,
+    "totalStateChanges": 14,
+    "lastUpdatedAt": "2025-12-14T20:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
