@@ -60,7 +60,7 @@
       }
     },
     "currentStage": "stage0_preparation",
-    "nextAction": "继续完善规范或进入architecture阶段开始设计工具实现"
+    "nextAction": "进行Architecture设计，按模块依赖顺序：核心流程模型 → 状态管理模块 → 其他模块"
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -69,10 +69,13 @@
       "version": "v1.0.0",
       "status": "in_progress",
       "startedAt": "2025-12-14T00:00:00Z",
+      "currentPhase": "architecture",
       "phases": {
         "requirements": {
-          "status": "in_progress",
+          "status": "approved",
           "startedAt": "2025-12-14T00:00:00Z",
+          "approvedAt": "2025-12-14T11:00:00Z",
+          "approvedBy": "human",
           "modules": {
             "核心流程模型": {
               "status": "approved",
@@ -132,8 +135,44 @@
           }
         },
         "architecture": {
-          "status": "pending",
-          "modules": {}
+          "status": "in_progress",
+          "startedAt": "2025-12-14T11:00:00Z",
+          "modules": {
+            "核心流程模型": {
+              "status": "pending",
+              "priority": "P0"
+            },
+            "状态管理模块": {
+              "status": "pending",
+              "priority": "P0"
+            },
+            "命令体系模块": {
+              "status": "pending",
+              "priority": "P0"
+            },
+            "文档模板模块": {
+              "status": "pending",
+              "priority": "P0"
+            },
+            "影响分析模块": {
+              "status": "pending",
+              "priority": "P1"
+            },
+            "测试验证模块": {
+              "status": "pending",
+              "priority": "P1"
+            },
+            "Git集成模块": {
+              "status": "pending",
+              "priority": "P0"
+            }
+          },
+          "currentProcess": {
+            "currentModule": "核心流程模型",
+            "completedModules": [],
+            "remainingModules": ["核心流程模型", "状态管理模块", "命令体系模块", "文档模板模块", "影响分析模块", "测试验证模块", "Git集成模块"],
+            "nextAction": "设计核心流程模型架构（无依赖，优先设计）"
+          }
         },
         "implementation": {
           "status": "pending",
@@ -180,16 +219,18 @@
     }
   },
   "globalTasks": {
-    "pending": [
+    "pending": [],
+    "completed": [
       {
         "id": "task-001",
-        "title": "确认是否进入architecture阶段",
+        "title": "确认是否��入architecture阶段",
         "description": "所有模块需求澄清已完成，需确认是否进入架构设计阶段",
         "priority": "P0",
-        "createdAt": "2025-12-14T00:00:00Z"
+        "createdAt": "2025-12-14T00:00:00Z",
+        "completedAt": "2025-12-14T11:00:00Z",
+        "resolution": "用户接受选项B，进入Architecture阶段"
       }
-    ],
-    "completed": []
+    ]
   },
   "changeHistory": [
     {
@@ -227,6 +268,35 @@
           "to": "PRD-project-template.md + PRD-module-template.md (双模板)"
         }
       ]
+    },
+    {
+      "timestamp": "2025-12-14T11:00:00Z",
+      "type": "phase_transition",
+      "description": "Requirements阶段完成并审批通过，进入Architecture阶段",
+      "changedBy": "human",
+      "changes": [
+        {
+          "field": "phases.requirements.status",
+          "from": "in_progress",
+          "to": "approved"
+        },
+        {
+          "field": "phases.architecture.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "currentPhase",
+          "from": null,
+          "to": "architecture"
+        },
+        {
+          "field": "globalTasks.pending",
+          "from": "1 task",
+          "to": "0 tasks (task-001 completed)"
+        }
+      ],
+      "decision": "用户接受选项B（进入Architecture阶段），严格遵循规范流程：requirements → architecture → implementation"
     }
   ],
   "settings": {
@@ -237,10 +307,10 @@
     "lastGitCommit": "1d5dadd137d14431a4e4cc3f6eca88b5780472be",
     "lastGitCommitMessage": "refactor(bootstrap): 重构PRD模板并记录自举过程",
     "lastGitCommitAt": "2025-12-14T10:00:00Z",
-    "stateFileVersion": 4,
-    "totalStateChanges": 4,
-    "lastUpdatedAt": "2025-12-14T10:00:00Z",
-    "lastUpdatedBy": "ai"
+    "stateFileVersion": 5,
+    "totalStateChanges": 5,
+    "lastUpdatedAt": "2025-12-14T11:00:00Z",
+    "lastUpdatedBy": "human"
   },
   "templateVersions": {
     "PRD_project": "1.0.0",
