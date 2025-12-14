@@ -355,9 +355,8 @@ AI基于精确上下文执行任务
 
 | 模块 | 职责 |
 |------|------|
-| **状态管理模块** | 提供 getContextForPhase/getContextForModule 接口 |
+| **状态管理模块** | 提供 getContextForPhase/getContextForModule 接口，定义各阶段上下文规则 |
 | **命令体系模块** | 命令执行时调用上下文接口，注入AI会话 |
-| **核心流程模型** | 定义各阶段的上下文规则 |
 
 #### 4.2.5 逃逸命令（处理边缘情况）
 
@@ -366,7 +365,8 @@ AI基于精确上下文执行任务
 | 命令 | 用途 | 使用场景 |
 |------|------|----------|
 | `/custom-task` | 创建自定义任务 | 预定义命令无法满足的新场景 |
-| `/expand-context` | 临时扩展上下文 | 当前任务需要读取默认上下文外的内容 |
+
+> **说明**：`/expand-context` 暂不实现。命令都是单独执行的，每个命令有预定义的上下文规则。如果需要扩展上下文，可以通过 `/custom-task` 创建自定义任务来实现。
 
 **`/custom-task` 使用示例**：
 
@@ -382,19 +382,6 @@ AI响应:
   - state.json（moduleDependencies）
 
 是否开始执行？
-```
-
-**`/expand-context` 使用示例**：
-
-```
-用户: /expand-context "读取iteration-0的架构设计作为参考"
-
-AI响应:
-上下文已扩展，额外加载：
-  - docs/architecture/iteration-0/
-  - state_his.json（iteration-0数据）
-
-注意：此扩展仅对当前任务有效。
 ```
 
 ### 4.3 五阶段流程概览
