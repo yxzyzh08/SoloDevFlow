@@ -234,11 +234,11 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "6aae1b19f42384fc32b8229db67eeeadb2c6a677",
-    "lastGitCommitMessage": "chore(init): 初始化AI超级个体开发助手项目",
-    "lastGitCommitAt": "2025-12-14T00:00:00Z",
-    "stateFileVersion": 3,
-    "totalStateChanges": 3,
+    "lastGitCommit": "1d5dadd137d14431a4e4cc3f6eca88b5780472be",
+    "lastGitCommitMessage": "refactor(bootstrap): 重构PRD模板并记录自举过程",
+    "lastGitCommitAt": "2025-12-14T10:00:00Z",
+    "stateFileVersion": 4,
+    "totalStateChanges": 4,
     "lastUpdatedAt": "2025-12-14T10:00:00Z",
     "lastUpdatedBy": "ai"
   },
