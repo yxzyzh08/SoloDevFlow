@@ -364,7 +364,22 @@
     }
   },
   "globalTasks": {
-    "pending": [],
+    "pending": [
+      {
+        "id": "task-002",
+        "title": "审批PRD补充：任务聚焦机制",
+        "description": "在架构评审阶段发现PRD缺失'任务聚焦机制'设计。已补充到PRD.md（4.2节）和命令体系模块-PRD.md（4.2节）。需要用户审批此需求补充。",
+        "priority": "P0",
+        "createdAt": "2025-12-14T18:00:00Z",
+        "relatedPhase": "requirements",
+        "affectedModules": ["命令体系模块"],
+        "artifacts": [
+          "docs/PRD/PRD.md（4.2 任务聚焦机制）",
+          "docs/PRD/modules/命令体系模块-PRD.md（4.2 任务聚焦规范、故事11-12）"
+        ],
+        "context": "用户核心诉求：确保AI在执行任务时专注于当前任务上下文，避免注意力分散导致任务质量下降。采用'任务聚焦模型'而非'文件权限模型'，通过Prompt工程实现聚焦。"
+      }
+    ],
     "completed": [
       {
         "id": "task-001",
@@ -564,6 +579,36 @@
         "docs/architecture/iteration-1/状态管理模块-数据模型设计.md (第十一节)",
         "docs/architecture/iteration-1/核心流程模型-集成设计.md (第9.6节)"
       ]
+    },
+    {
+      "timestamp": "2025-12-14T18:00:00Z",
+      "type": "requirements_supplement",
+      "description": "在架构评审阶段发现PRD缺失'任务聚焦机制'设计，补充PRD需求",
+      "changedBy": "ai",
+      "trigger": "架构评审发现PRD缺失关键需求：如何确保AI在执行任务时专注当前任务上下文",
+      "userDecision": "用户核心诉求是'认知聚焦'而非'文件权限'，采用'任务聚焦模型'通过Prompt工程实现",
+      "changes": [
+        {
+          "field": "docs/PRD/PRD.md",
+          "from": null,
+          "to": "新增4.2节'任务聚焦机制'（设计理念、命令上下文定义、逃逸机制、实现方式）"
+        },
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md",
+          "from": "4.1命令清单(7个命令)",
+          "to": "4.1命令清单(9个命令，新增/custom-task和/expand-context)、4.2任务聚焦规范、故事11-12（逃逸机制）"
+        },
+        {
+          "field": "globalTasks.pending",
+          "from": "0 tasks",
+          "to": "1 task (task-002: 审批PRD补充：任务聚焦机制)"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/PRD.md（4.2 任务聚焦机制）",
+        "docs/PRD/modules/命令体系模块-PRD.md（4.2 任务聚焦规范、故事11-12）"
+      ],
+      "notes": "这是架构阶段发现的需求缺失，采用'补充而非回滚'策略，记录为globalTask待审批"
     }
   ],
   "settings": {
@@ -571,12 +616,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "9274f84",
-    "lastGitCommitMessage": "docs(architecture): 补充状态管理模块架构设计（6项评审问题）",
-    "lastGitCommitAt": "2025-12-14T17:00:00Z",
-    "stateFileVersion": 11,
-    "totalStateChanges": 11,
-    "lastUpdatedAt": "2025-12-14T17:00:00Z",
+    "lastGitCommit": "pending",
+    "lastGitCommitMessage": "docs(PRD): 补充任务聚焦机制需求（架构评审发现）",
+    "lastGitCommitAt": "2025-12-14T18:00:00Z",
+    "stateFileVersion": 12,
+    "totalStateChanges": 12,
+    "lastUpdatedAt": "2025-12-14T18:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
