@@ -411,11 +411,11 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "1d5dadd137d14431a4e4cc3f6eca88b5780472be",
-    "lastGitCommitMessage": "refactor(bootstrap): 重构PRD模板并记录自举过程",
-    "lastGitCommitAt": "2025-12-14T10:00:00Z",
-    "stateFileVersion": 6,
-    "totalStateChanges": 6,
+    "lastGitCommit": "903161adcaba1783f2f776220056966aabb57c00",
+    "lastGitCommitMessage": "feat(architecture): 完成核心流程模型架构设计",
+    "lastGitCommitAt": "2025-12-14T14:00:00Z",
+    "stateFileVersion": 7,
+    "totalStateChanges": 7,
     "lastUpdatedAt": "2025-12-14T14:00:00Z",
     "lastUpdatedBy": "ai"
   },
