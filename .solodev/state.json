@@ -6,6 +6,62 @@
     "type": "backend",
     "createdAt": "2025-12-14T00:00:00Z"
   },
+  "bootstrap": {
+    "isBootstrap": true,
+    "phase": "规范完善阶段",
+    "description": "自举(Bootstrapping)指用系统自身来开发/管理系统本身。当前处于自举准备阶段：先用规范手工管理开发，待工具实现后用工具管理后续开发。",
+    "stages": {
+      "stage0_preparation": {
+        "name": "阶段0：规范准备",
+        "status": "in_progress",
+        "description": "定义规范、写PRD、准备模板，用手工方式+AI对话管理开发过程",
+        "milestones": [
+          {
+            "id": "m0-1",
+            "name": "初始化项目结构",
+            "status": "completed",
+            "completedAt": "2025-12-14T00:00:00Z",
+            "artifacts": [".solodev/", "docs/", "CLAUDE.md", "专项指南"]
+          },
+          {
+            "id": "m0-2",
+            "name": "完成7个模块PRD",
+            "status": "completed",
+            "completedAt": "2025-12-14T00:00:00Z",
+            "artifacts": ["docs/PRD/PRD.md", "docs/PRD/modules/*.md"]
+          },
+          {
+            "id": "m0-3",
+            "name": "重构PRD模板",
+            "status": "completed",
+            "completedAt": "2025-12-14T00:00:00Z",
+            "artifacts": ["PRD-project-template.md", "PRD-module-template.md"],
+            "reason": "发现模板不匹配实际PRD结构（总PRD vs 模块级PRD），需重构为两个模板"
+          }
+        ]
+      },
+      "stage1_minimal_tools": {
+        "name": "阶段1：最小可用工具",
+        "status": "pending",
+        "description": "实现核心命令和状态管理，开始用部分工具管理后续开发",
+        "milestones": []
+      },
+      "stage2_self_hosting": {
+        "name": "阶段2：自举开始",
+        "status": "pending",
+        "description": "用第一阶段开发的工具来管理剩余功能的开发",
+        "milestones": []
+      },
+      "stage3_complete_bootstrap": {
+        "name": "阶段3：完整自举",
+        "status": "pending",
+        "description": "用完整工具来优化和重构自己",
+        "milestones": []
+      }
+    },
+    "currentStage": "stage0_preparation",
+    "nextAction": "继续完善规范或进入architecture阶段开始设计工具实现"
+  },
   "currentIteration": "iteration-1",
   "iterations": {
     "iteration-1": {
@@ -153,6 +209,24 @@
           "to": "in_progress"
         }
       ]
+    },
+    {
+      "timestamp": "2025-12-14T10:00:00Z",
+      "type": "bootstrap",
+      "description": "添加bootstrap字段，记录自举过程的4个阶段和已完成的3个里程碑",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "bootstrap",
+          "from": null,
+          "to": "added (stage0_preparation in_progress, 3 milestones completed)"
+        },
+        {
+          "field": "templates",
+          "from": "PRD-backend-template.md (单模板)",
+          "to": "PRD-project-template.md + PRD-module-template.md (双模板)"
+        }
+      ]
     }
   ],
   "settings": {
@@ -163,13 +237,14 @@
     "lastGitCommit": "6aae1b19f42384fc32b8229db67eeeadb2c6a677",
     "lastGitCommitMessage": "chore(init): 初始化AI超级个体开发助手项目",
     "lastGitCommitAt": "2025-12-14T00:00:00Z",
-    "stateFileVersion": 2,
-    "totalStateChanges": 2,
-    "lastUpdatedAt": "2025-12-14T00:00:00Z",
+    "stateFileVersion": 3,
+    "totalStateChanges": 3,
+    "lastUpdatedAt": "2025-12-14T10:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
-    "PRD": "1.0.0",
+    "PRD_project": "1.0.0",
+    "PRD_module": "1.0.0",
     "architecture": "1.0.0",
     "testing": "1.0.0",
     "deployment": "1.0.0"
