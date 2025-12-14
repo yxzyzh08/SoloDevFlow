@@ -114,6 +114,7 @@ AI读取模板
 | **变量填充模块** | 从多个数据源填充变量 | state.json + 上下文推断 |
 | **内容生成模块** | 基于模板和数据生成文档内容 | AI推理 + 模板合并 |
 | **模板版本管理** | 管理模板版本，支持迁移 | state.json.templateVersions |
+| **文档引用验证** | 验证文档间引用关系的有效性 | 程序自动扫描 + 规则验证 |
 
 ---
 
@@ -274,6 +275,202 @@ AI读取模板
   审批3：混沌测试方案
 ```
 
+### 4.4 文档引用验证（Document Reference Validation）
+
+> **定位**：这是一个**产品能力**，由代码实现，确保文档间引用关系的有效性和一致性。
+
+#### 4.4.1 功能定义
+
+| 维度 | 说明 |
+|------|------|
+| **性质** | 产品能力（代码实现） |
+| **实现方式** | 程序自动扫描和验证 |
+| **执行时机** | 每次文档生成/更新后自动执行 |
+| **归属模块** | 文档模板模块 |
+
+**核心目标**：自动验证文档间的引用关系，发现断链、错误引用、章节缺失等问题。
+
+#### 4.4.2 章节ID规范
+
+**规范目的**：为关键章节分配唯一ID，便于程序化识别和引用验证。
+
+**ID格式**：`{文档类型}-{模块名}-{章节编号}`
+
+| 文档类型 | 前缀 | 示例 |
+|----------|------|------|
+| PRD | `prd` | `prd-状态管理-4.1` |
+| 架构文档 | `arch` | `arch-状态管理-数据模型-3.2` |
+| 测试文档 | `test` | `test-E2E-用例清单` |
+| 部署文档 | `deploy` | `deploy-手册-前置条件` |
+
+**章节ID标注方式**（在Markdown中）：
+
+```markdown
+### 4.1 命令清单 {#prd-命令体系-4.1}
+
+本章节描述所有命令的概览...
+
+**详细设计**：参见 [架构文档-命令设计](../architecture/iteration-1/命令设计.md#arch-命令体系-命令清单)
+```
+
+**必须标注ID的章节**：
+
+| 文档类型 | 必须标注的章节 |
+|----------|----------------|
+| **PRD** | 命令/接口清单、数据模型概览、验收标准 |
+| **架构文档** | 命令设计、数据模型Schema、接口定义、集成点 |
+| **测试文档** | 测试用例清单、验收标准对照 |
+| **部署文档** | 部署步骤、前置条件 |
+
+#### 4.4.3 引用格式规范
+
+**标准引用格式**：
+
+```markdown
+<!-- 引用文件 -->
+参见 [文档名](相对路径)
+
+<!-- 引用文件+章节 -->
+参见 [文档名-章节名](相对路径#章节ID)
+
+<!-- 引用验收标准 -->
+验收标准参见 [PRD-验收标准](../../PRD/modules/状态管理模块-PRD.md#prd-状态管理-验收标准)
+```
+
+**引用类型**：
+
+| 引用类型 | 格式 | 示例 |
+|----------|------|------|
+| **文件引用** | `[名称](路径)` | `[状态管理模块PRD](../PRD/modules/状态管理模块-PRD.md)` |
+| **章节引用** | `[名称](路径#ID)` | `[数据模型](./数据模型设计.md#arch-状态管理-schema)` |
+| **表格引用** | `详见 路径` | `详见 docs/architecture/iteration-1/命令设计.md` |
+
+#### 4.4.4 接口定义
+
+```typescript
+// 文档引用结构
+interface DocumentReference {
+  sourceFile: string;        // 引用方文件路径
+  sourceLine: number;        // 引用所在行号
+  targetFile: string;        // 被引用文件路径
+  targetSection?: string;    // 被引用章节ID（可选）
+  referenceText: string;     // 引用文本
+}
+
+// 验证结果
+interface ReferenceValidationResult {
+  valid: DocumentReference[];           // 有效引用
+  brokenFile: DocumentReference[];      // 文件不存在
+  brokenSection: DocumentReference[];   // 章节ID不存在
+  missingId: SectionInfo[];             // 缺少必须的章节ID
+  inconsistent: InconsistencyInfo[];    // 内容不一致（如命令清单与命令设计不匹配）
+}
+
+// 章节信息
+interface SectionInfo {
+  file: string;
+  sectionName: string;
+  lineNumber: number;
+  requiredId: string;        // 应该标注的ID
+}
+
+// 不一致信息
+interface InconsistencyInfo {
+  type: 'command_mismatch' | 'schema_mismatch' | 'acceptance_mismatch';
+  sourceFile: string;
+  targetFile: string;
+  description: string;
+}
+
+// 验证接口
+validateDocumentReferences(): Promise<ReferenceValidationResult>
+
+// 扫描所有引用
+scanAllReferences(): Promise<DocumentReference[]>
+
+// 检查章节ID覆盖
+checkSectionIdCoverage(): Promise<SectionInfo[]>
+```
+
+#### 4.4.5 验证规则
+
+**规则1：文件存在性检查**
+```
+对于每个文档引用：
+  IF 被引用文件不存在 THEN 报告 brokenFile 错误
+```
+
+**规则2：章节ID存在性检查**
+```
+对于每个章节引用：
+  IF 被引用文件存在 BUT 章节ID不存在 THEN 报告 brokenSection 错误
+```
+
+**规则3：必须章节ID检查**
+```
+对于每个已生成的文档：
+  IF 必须标注ID的章节 未标注ID THEN 报告 missingId 警告
+```
+
+**规则4：内容一致性检查**
+```
+PRD命令清单 vs 架构命令设计：
+  IF 命令数量不匹配 OR 命令名称不匹配 THEN 报告 command_mismatch
+
+PRD数据模型概览 vs 架构数据模型Schema：
+  IF 字段数量不匹配 OR 字段名称不匹配 THEN 报告 schema_mismatch
+
+PRD验收标准 vs E2E测试用例：
+  IF 验收条目未被测试覆盖 THEN 报告 acceptance_mismatch
+```
+
+#### 4.4.6 执行时机
+
+| 时机 | 触发条件 | 验证范围 |
+|------|----------|----------|
+| **文档生成后** | AI完成文档生成 | 新生成的文档 |
+| **文档更新后** | 用户或AI修改文档 | 被修改的文档及其引用方 |
+| **阶段启动前** | 执行 `/start-*` 命令 | 该阶段依赖的所有前置文档 |
+| **手动触发** | 执行 `/validate-docs` 命令 | 所有文档 |
+
+**验证流程**：
+
+```
+文档生成/更新完成
+        ↓
+自动执行 validateDocumentReferences()
+        ↓
+┌─ 验证通过 → 继续流程
+│
+└─ 验证失败 → 分类处理：
+   ├─ brokenFile → 错误：阻止提交，要求修复
+   ├─ brokenSection → 错误：阻止提交，要求修复
+   ├─ missingId → 警告：允许提交，提示补充
+   └─ inconsistent → 警告：允许提交，提示检查
+```
+
+#### 4.4.7 文档引用图谱
+
+**自动维护的引用关系**（存储在 state.json）：
+
+```json
+{
+  "documentReferences": {
+    "docs/PRD/modules/状态管理模块-PRD.md": {
+      "referencedBy": [
+        "docs/architecture/iteration-1/状态管理模块-数据模型设计.md",
+        "docs/architecture/iteration-1/状态管理模块-集成设计.md"
+      ],
+      "references": [
+        "docs/architecture/iteration-1/命令设计.md"
+      ]
+    }
+  },
+  "lastValidationAt": "2025-12-14T20:00:00Z",
+  "validationStatus": "passed"
+}
+```
+
 ---
 
 ## 五、用户故事与验收标准
@@ -429,6 +626,41 @@ AI读取模板
   - [ ] PRD中的数据模型概览与架构文档中的详细Schema一致
   - [ ] 验收标准与E2E测试场景一致
   - [ ] 发现不一致时警告用户
+```
+
+**故事 14：文档引用有效性验证**
+```
+作为系统，我需要自动验证文档间的引用关系，以便及时发现断链和错误引用。
+
+验收标准：
+  - [ ] 每次文档生成/更新后自动执行引用验证
+  - [ ] 检测并报告文件引用错误（被引用文件不存在）
+  - [ ] 检测并报告章节引用错误（章节ID不存在）
+  - [ ] 验证结果分类处理：文件/章节错误阻止提交，ID缺失/不一致提示警告
+  - [ ] 支持手动触发全量验证（/validate-docs命令）
+```
+
+**故事 15：章节ID自动检查**
+```
+作为系统，我需要确保关键章节都有唯一ID，以便支持精确的跨文档引用。
+
+验收标准：
+  - [ ] 关键章节必须标注ID，格式：{文档类型}-{模块名}-{章节编号}
+  - [ ] PRD文档必须标注ID的章节：命令/接口清单、数据模型概览、验收标准
+  - [ ] 架构文档必须标注ID的章节：命令设计、数据模型Schema、接口定义、集成点
+  - [ ] 测试文档必须标注ID的章节：测试用例清单、验收标准对照
+  - [ ] 检测到缺失ID时发出警告，允许提交但提示补充
+```
+
+**故事 16：文档引用图谱维护**
+```
+作为系统，我需要维护文档间的引用关系图谱，以便支持影响分析和依赖追踪。
+
+验收标准：
+  - [ ] 在state.json中自动维护documentReferences字段
+  - [ ] 记录每个文档的引用方（referencedBy）和被引用（references）
+  - [ ] 阶段启动前（/start-*命令）验证前置文档的引用有效性
+  - [ ] 支持查询某文档的所有依赖方，用于变更影响分析
 ```
 
 ### 5.2 边界条件与异常处理
