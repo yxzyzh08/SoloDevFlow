@@ -769,9 +769,9 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "84cdad0",
-    "lastGitCommitMessage": "feat(prd): 完善上下文加载能力设计，补充6项评审反馈",
-    "lastGitCommitAt": "2025-12-15T00:00:00Z",
+    "lastGitCommit": "21cdeb0",
+    "lastGitCommitMessage": "docs(prd): 完善章节ID规范，补充设计理念和统一标注规则",
+    "lastGitCommitAt": "2025-12-15T01:00:00Z",
     "stateFileVersion": 16,
     "totalStateChanges": 16,
     "lastUpdatedAt": "2025-12-15T01:00:00Z",
