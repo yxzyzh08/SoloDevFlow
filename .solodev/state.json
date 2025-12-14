@@ -616,7 +616,7 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "pending",
+    "lastGitCommit": "cb3a8e4",
     "lastGitCommitMessage": "docs(PRD): 补充任务聚焦机制需求（架构评审发现）",
     "lastGitCommitAt": "2025-12-14T18:00:00Z",
     "stateFileVersion": 12,
