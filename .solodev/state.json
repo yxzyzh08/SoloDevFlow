@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "AI超级个体开发助手",
+    "description": "为超级个体提供从需求到部署的完整人机协作开发闭环",
+    "type": "backend",
+    "createdAt": "2025-12-14T00:00:00Z"
+  },
+  "currentIteration": "iteration-1",
+  "iterations": {
+    "iteration-1": {
+      "id": "iteration-1",
+      "version": "v1.0.0",
+      "status": "in_progress",
+      "startedAt": "2025-12-14T00:00:00Z",
+      "phases": {
+        "requirements": {
+          "status": "in_progress",
+          "startedAt": "2025-12-14T00:00:00Z",
+          "modules": {
+            "核心流程模型": {
+              "status": "approved",
+              "priority": "P0",
+              "approvedAt": "2025-12-14T00:00:00Z",
+              "artifacts": ["docs/PRD/modules/核心流程模型-PRD.md"],
+              "reviewer": "human"
+            },
+            "状态管理模块": {
+              "status": "approved",
+              "priority": "P0",
+              "approvedAt": "2025-12-14T00:00:00Z",
+              "artifacts": ["docs/PRD/modules/状态管理模块-PRD.md"],
+              "reviewer": "human"
+            },
+            "命令体系模块": {
+              "status": "approved",
+              "priority": "P0",
+              "approvedAt": "2025-12-14T00:00:00Z",
+              "artifacts": ["docs/PRD/modules/命令体系模块-PRD.md"],
+              "reviewer": "human"
+            },
+            "文档模板模块": {
+              "status": "approved",
+              "priority": "P0",
+              "approvedAt": "2025-12-14T00:00:00Z",
+              "artifacts": ["docs/PRD/modules/文档模板模块-PRD.md"],
+              "reviewer": "human"
+            },
+            "影响分析模块": {
+              "status": "approved",
+              "priority": "P1",
+              "approvedAt": "2025-12-14T00:00:00Z",
+              "artifacts": ["docs/PRD/modules/影响分析模块-PRD.md"],
+              "reviewer": "human"
+            },
+            "测试验证模块": {
+              "status": "approved",
+              "priority": "P1",
+              "approvedAt": "2025-12-14T00:00:00Z",
+              "artifacts": ["docs/PRD/modules/测试验证模块-PRD.md"],
+              "reviewer": "human"
+            },
+            "Git集成模块": {
+              "status": "approved",
+              "priority": "P0",
+              "approvedAt": "2025-12-14T00:00:00Z",
+              "artifacts": ["docs/PRD/modules/Git集成模块-PRD.md"],
+              "reviewer": "human"
+            }
+          },
+          "currentProcess": {
+            "currentModule": null,
+            "completedModules": ["核心流程模型", "状态管理模块", "命令体系模块", "文档模板模块", "影响分析模块", "测试验证模块", "Git集成模块"],
+            "remainingModules": [],
+            "nextAction": "所有模块需求澄清已完成，建议进入architecture阶段"
+          }
+        },
+        "architecture": {
+          "status": "pending",
+          "modules": {}
+        },
+        "implementation": {
+          "status": "pending",
+          "modules": {}
+        },
+        "testing": {
+          "status": "pending",
+          "testPhases": {}
+        },
+        "deployment": {
+          "status": "pending"
+        }
+      }
+    }
+  },
+  "moduleDependencies": {
+    "核心流程模型": {
+      "dependsOn": [],
+      "dependedBy": ["状态管理模块", "命令体系模块", "文档模板模块", "影响分析模块", "测试验证模块", "Git集成模块"]
+    },
+    "状态管理模块": {
+      "dependsOn": ["核心流程模型"],
+      "dependedBy": ["命令体系模块", "影响分析模块"]
+    },
+    "命令体系模块": {
+      "dependsOn": ["核心流程模型", "状态管理模块"],
+      "dependedBy": []
+    },
+    "文档模板模块": {
+      "dependsOn": ["核心流程模型"],
+      "dependedBy": []
+    },
+    "影响分析模块": {
+      "dependsOn": ["核心流程模型", "状态管理模块"],
+      "dependedBy": []
+    },
+    "测试验证模块": {
+      "dependsOn": ["核心流程模型"],
+      "dependedBy": []
+    },
+    "Git集成模块": {
+      "dependsOn": ["核心流程模型"],
+      "dependedBy": []
+    }
+  },
+  "globalTasks": {
+    "pending": [
+      {
+        "id": "task-001",
+        "title": "确认是否进入architecture阶段",
+        "description": "所有模块需求澄清已完成，需确认是否进入架构设计阶段",
+        "priority": "P0",
+        "createdAt": "2025-12-14T00:00:00Z"
+      }
+    ],
+    "completed": []
+  },
+  "changeHistory": [
+    {
+      "timestamp": "2025-12-14T00:00:00Z",
+      "type": "init",
+      "description": "初始化项目状态",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "currentIteration",
+          "from": null,
+          "to": "iteration-1"
+        },
+        {
+          "field": "phases.requirements.status",
+          "from": null,
+          "to": "in_progress"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "autoReadHistory": true,
+    "requireApprovalForPhaseTransition": true
+  },
+  "metadata": {
+    "lastGitCommit": null,
+    "lastGitCommitMessage": null,
+    "lastGitCommitAt": null,
+    "stateFileVersion": 1,
+    "totalStateChanges": 1,
+    "lastUpdatedAt": "2025-12-14T00:00:00Z",
+    "lastUpdatedBy": "ai"
+  },
+  "templateVersions": {
+    "PRD": "1.0.0",
+    "architecture": "1.0.0",
+    "testing": "1.0.0",
+    "deployment": "1.0.0"
+  }
+}

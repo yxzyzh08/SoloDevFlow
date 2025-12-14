@@ -1,0 +1,217 @@
+{
+  "folders": [
+    {
+      "name": "🔧 SoloDevFLow(主项目)",
+      "path": "."
+    },
+    {
+      "name": "🧪 Demo Project (测试项目)",
+      "path": "../demo-project"
+    }
+  ],
+  "settings": {
+    // 编辑器配置
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+
+    // 文件配置
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/dist": false,
+      "**/.git": false
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/dist/**": true
+    },
+
+    // TypeScript 配置
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+
+    // 搜索配置
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/coverage": true
+    },
+
+    // Git 配置
+    "git.ignoreLimitWarning": true,
+
+    // 文件关联
+    "files.associations": {
+      "*.md": "markdown",
+      ".ai-dev.json": "jsonc",
+      ".claude-config.json": "jsonc"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      // TypeScript & JavaScript
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+
+      // Markdown
+      "yzhang.markdown-all-in-one",
+      "davidanson.vscode-markdownlint",
+
+      // Git
+      "eamodio.gitlens",
+
+      // 其他工具
+      "christian-kohler.path-intellisense",
+      "streetsidesoftware.code-spell-checker"
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "🔧 Dev: Run CLI",
+        "program": "${workspaceFolder:🔧 AI Dev Template (主项目)}/src/cli/index.ts",
+        "args": [
+          "init",
+          "test-project",
+          "--type",
+          "web-fullstack",
+          "--non-interactive"
+        ],
+        "cwd": "${workspaceFolder:🔧 AI Dev Template (主项目)}",
+        "runtimeArgs": ["-r", "ts-node/register"],
+        "skipFiles": ["<node_internals>/**"],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "🔧 Dev: Build & Run",
+        "preLaunchTask": "npm: build",
+        "program": "${workspaceFolder:🔧 AI Dev Template (主项目)}/dist/cli/index.js",
+        "args": ["--help"],
+        "cwd": "${workspaceFolder:🔧 AI Dev Template (主项目)}",
+        "skipFiles": ["<node_internals>/**"],
+        "console": "integratedTerminal"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "🧪 Test: Run Generated Project",
+        "program": "${workspaceFolder:🧪 Demo Project (测试项目)}/src/index.js",
+        "cwd": "${workspaceFolder:🧪 Demo Project (测试项目)}",
+        "skipFiles": ["<node_internals>/**"],
+        "console": "integratedTerminal"
+      }
+    ],
+    "compounds": []
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "🔧 Build Main Project",
+        "type": "npm",
+        "script": "build",
+        "path": ".",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": ["$tsc"],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        }
+      },
+      {
+        "label": "🔧 Dev: Watch Mode",
+        "type": "npm",
+        "script": "dev",
+        "path": ".",
+        "isBackground": true,
+        "problemMatcher": ["$tsc-watch"],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        }
+      },
+      {
+        "label": "🔧 Lint & Format",
+        "type": "npm",
+        "script": "lint:fix",
+        "path": ".",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "🔧 Run Tests",
+        "type": "npm",
+        "script": "test",
+        "path": ".",
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        }
+      },
+      {
+        "label": "🧪 Create New Test Project",
+        "type": "shell",
+        "command": "node",
+        "args": [
+          "dist/cli/index.js",
+          "init",
+          "test-project-${input:projectName}",
+          "--type",
+          "${input:projectType}",
+          "--non-interactive"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:🔧 AI Dev Template (主项目)}"
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        }
+      },
+      {
+        "label": "🧪 Install Demo Dependencies",
+        "type": "npm",
+        "script": "install",
+        "path": "../demo-project",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared"
+        }
+      }
+    ],
+    "inputs": [
+      {
+        "id": "projectName",
+        "type": "promptString",
+        "description": "测试项目名称",
+        "default": "test"
+      },
+      {
+        "id": "projectType",
+        "type": "pickString",
+        "description": "项目类型",
+        "options": ["web-fullstack", "mobile-app", "backend-api", "cli-tool"],
+        "default": "web-fullstack"
+      }
+    ]
+  }
+}
