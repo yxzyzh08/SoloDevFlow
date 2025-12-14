@@ -404,6 +404,35 @@
         "docs/architecture/iteration-1/核心流程模型-集成设计.md"
       ],
       "notes": "核心流程模型作为元模型层,定义了五阶段流转规则、状态机、依赖解析算法、影响分析算法和7类数据完整性约束"
+    },
+    {
+      "timestamp": "2025-12-14T15:00:00Z",
+      "type": "architecture_supplement",
+      "description": "根据架构评审反馈，补充核心流程模型架构设计（5项遗漏问题）",
+      "changedBy": "ai",
+      "reviewFeedback": [
+        "问题1: 分层分析算法缺失 - 已补充RootCauseAnalysisFramework完整定义",
+        "问题2: Testing子阶段未体现 - 已补充TestingPhaseState和TestSubPhaseState",
+        "问题3: 回滚状态处理不明确 - 已补充rolled_back状态和RollbackRule",
+        "问题4: changeHistory职责归属不清 - 已明确由状态管理模块负责",
+        "问题5: 算法接口未定义 - 已补充determineImpactedPhases和calculateEffort"
+      ],
+      "changes": [
+        {
+          "field": "数据模型设计.第十一节",
+          "from": null,
+          "to": "补充设计（Testing子阶段状态机、rolled_back状态、分层分析框架、算法实现）"
+        },
+        {
+          "field": "集成设计.第九节",
+          "from": null,
+          "to": "补充设计（算法接口扩展、配置接口扩展、changeHistory职责归属）"
+        }
+      ],
+      "artifacts": [
+        "docs/architecture/iteration-1/核心流程模型-数据模型设计.md (第十一节)",
+        "docs/architecture/iteration-1/核心流程模型-集成设计.md (第九节)"
+      ]
     }
   ],
   "settings": {
@@ -414,9 +443,9 @@
     "lastGitCommit": "903161adcaba1783f2f776220056966aabb57c00",
     "lastGitCommitMessage": "feat(architecture): 完成核心流程模型架构设计",
     "lastGitCommitAt": "2025-12-14T14:00:00Z",
-    "stateFileVersion": 7,
-    "totalStateChanges": 7,
-    "lastUpdatedAt": "2025-12-14T14:00:00Z",
+    "stateFileVersion": 8,
+    "totalStateChanges": 8,
+    "lastUpdatedAt": "2025-12-14T15:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
