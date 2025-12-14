@@ -16,10 +16,11 @@
 ## 二、模块职责
 
 1. **状态文件管理**：管理state.json（当前迭代）和state_his.json（历史迭代）
-2. **状态读写**：提供统一的状态读取和更新��口
+2. **状态读写**：提供统一的状态读取和更新接口
 3. **历史数据迁移**：迭代完成后自动迁移数据到历史文件
 4. **历史数据访问**：智能判断何时读取历史数据
 5. **状态验证**：检测state.json格式错误，提供修复建议
+6. **上下文加载**：根据阶段和模块，自动加载精确的任务上下文（代码实现，强制性）
 
 ---
 
@@ -329,6 +330,93 @@ try {
 ```bash
 git log .solodev/state.json
 git checkout <commit-hash> .solodev/state.json
+```
+
+### 3.5 上下文加载能力（Context Loading）
+
+> **新增功能**：根据当前阶段和任务，自动加载精确的上下文，避免AI处理无关信息，确保任务质量。
+
+#### 功能定义
+
+| 维度 | 说明 |
+|------|------|
+| **性质** | 产品能力（代码实现） |
+| **实现方式** | 脚本/代码自动加载上下文 |
+| **可靠性** | 强制性，代码控制 |
+| **调用方** | 命令体系模块 |
+
+**核心目标**：确保AI在执行任务时专注于当前任务上下文，避免注意力分散导致任务质量下降。
+
+#### 接口定义
+
+```typescript
+// 获取阶段级上下文
+getContextForPhase(phase: Phase): ContextResult
+
+// 获取模块级上下文（更精确）
+getContextForModule(module: string, phase: Phase): ContextResult
+
+// 返回类型
+interface ContextResult {
+  files: string[];           // 需要加载的文件路径列表
+  templates: string[];       // 需要加载的模板
+  stateFields: string[];     // 需要读取的state.json字段
+  description: string;       // 上下文描述（供AI理解）
+}
+```
+
+#### 上下文加载规则
+
+| 阶段 | 自动加载的上下文 |
+|------|------------------|
+| **requirements** | state.json, PRD模板, 用户输入历史 |
+| **architecture** | state.json, 已审批PRD, 架构模板, 已完成架构文档 |
+| **implementation** | state.json, 已审批架构, 代码模板, 相关代码文件 |
+| **testing** | state.json, PRD验收标准, 架构文档, 实现代码 |
+| **deployment** | state.json, 架构文档, 部署模板 |
+
+#### 模块级加载示例
+
+```typescript
+// 示例：获取"状态管理模块"在"architecture"阶段的上下文
+getContextForModule("状态管理模块", "architecture")
+
+// 返回：
+{
+  files: [
+    "docs/PRD/modules/状态管理模块-PRD.md",
+    "docs/architecture/iteration-1/核心流程模型-*.md"  // 依赖模块的架构
+  ],
+  templates: [
+    ".solodev/templates/architecture-系统架构总览.md",
+    ".solodev/templates/architecture-数据模型设计.md",
+    ".solodev/templates/architecture-集成设计.md"
+  ],
+  stateFields: [
+    "currentIteration",
+    "moduleDependencies.状态管理模块",
+    "phases.architecture.modules.状态管理模块"
+  ],
+  description: "状态管理模块架构设计上下文：包含该模块PRD、依赖模块架构、架构模板"
+}
+```
+
+#### 执行时机
+
+命令执行时自动调用，无需用户干预：
+
+```
+用户执行命令 /start-architecture
+        ↓
+命令体系模块解析命令
+        ↓
+调用 getContextForModule(currentModule, "architecture")
+        ↓
+状态管理模块返回上下文列表
+        ↓
+命令体系模块将上下文注入AI会话
+        ↓
+AI基于精确上下文执行任务
 ```
 
 ---

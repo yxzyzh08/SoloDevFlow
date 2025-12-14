@@ -367,17 +367,18 @@
     "pending": [
       {
         "id": "task-002",
-        "title": "审批PRD补充：任务聚焦机制",
-        "description": "在架构评审阶段发现PRD缺失'任务聚焦机制'设计。已补充到PRD.md（4.2节）和命令体系模块-PRD.md（4.2节）。需要用户审批此需求补充。",
+        "title": "审批PRD补充：上下文加载能力",
+        "description": "在架构评审阶段发现PRD缺失'上下文加载能力'设计。这是一个产品能力（代码实现），由状态管理模块提供接口。已补充到PRD.md（4.2节）、状态管理模块-PRD.md（3.5节）和命令体系模块-PRD.md（4.2节）。",
         "priority": "P0",
         "createdAt": "2025-12-14T18:00:00Z",
         "relatedPhase": "requirements",
-        "affectedModules": ["命令体系模块"],
+        "affectedModules": ["状态管理模块", "命令体系模块"],
         "artifacts": [
-          "docs/PRD/PRD.md（4.2 任务聚焦机制）",
-          "docs/PRD/modules/命令体系模块-PRD.md（4.2 任务聚焦规范、故事11-12）"
+          "docs/PRD/PRD.md（4.2 上下文加载能力）",
+          "docs/PRD/modules/状态管理模块-PRD.md（3.5 上下文加载能力）",
+          "docs/PRD/modules/命令体系模块-PRD.md（4.2 上下文加载集成）"
         ],
-        "context": "用户核心诉求：确保AI在执行任务时专注于当前任务上下文，避免注意力分散导致任务质量下降。采用'任务聚焦模型'而非'文件权限模型'，通过Prompt工程实现聚焦。"
+        "context": "用户核心诉求：确保AI在执行任务时专注于当前任务上下文。这是产品能力而非规范，由代码实现强制控制，而非依赖AI遵守Prompt引导。"
       }
     ],
     "completed": [
@@ -609,6 +610,54 @@
         "docs/PRD/modules/命令体系模块-PRD.md（4.2 任务聚焦规范、故事11-12）"
       ],
       "notes": "这是架构阶段发现的需求缺失，采用'补充而非回滚'策略，记录为globalTask待审批"
+    },
+    {
+      "timestamp": "2025-12-14T19:00:00Z",
+      "type": "requirements_clarification",
+      "description": "澄清'任务聚焦'的正确定位：是产品能力（代码实现），而非规范（Prompt引导）",
+      "changedBy": "ai",
+      "trigger": "用户指出任务聚焦不仅是规范，更是产品的能力，应该由代码实现强制控制",
+      "changes": [
+        {
+          "field": "docs/PRD/PRD.md 4.2节",
+          "from": "任务聚焦机制（规范）",
+          "to": "上下文加载能力（产品能力，代码实现）"
+        },
+        {
+          "field": "docs/PRD/modules/状态管理模块-PRD.md",
+          "from": "无上下文加载职责",
+          "to": "新增3.5节'上下文加载能力'，提供getContextForPhase/getContextForModule接口"
+        },
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md 4.2节",
+          "from": "任务聚焦规范（Prompt引导）",
+          "to": "上下文加载集成（调用状态管理模块接口）"
+        },
+        {
+          "field": "globalTasks.pending[task-002]",
+          "from": "审批PRD补充：任务聚焦机制",
+          "to": "审批PRD补充：上下文加载能力"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/PRD.md（4.2 上下文加载能力）",
+        "docs/PRD/modules/状态管理模块-PRD.md（3.5 上下文加载能力）",
+        "docs/PRD/modules/命令体系模块-PRD.md（4.2 上下文加载集成）"
+      ],
+      "clarification": {
+        "before": {
+          "性质": "规范（Prompt引导）",
+          "实现": "命令文件中定义关注范围",
+          "可靠性": "依赖AI遵守",
+          "归属模块": "命令体系模块"
+        },
+        "after": {
+          "性质": "产品能力（代码实现）",
+          "实现": "脚本/代码自动加载上下文",
+          "可靠性": "强制性，代码控制",
+          "归属模块": "状态管理模块"
+        }
+      }
     }
   ],
   "settings": {
@@ -616,12 +665,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "cb3a8e4",
-    "lastGitCommitMessage": "docs(PRD): 补充任务聚焦机制需求（架构评审发现）",
-    "lastGitCommitAt": "2025-12-14T18:00:00Z",
-    "stateFileVersion": 12,
-    "totalStateChanges": 12,
-    "lastUpdatedAt": "2025-12-14T18:00:00Z",
+    "lastGitCommit": "pending",
+    "lastGitCommitMessage": "docs(PRD): 澄清上下文加载为产品能力（代码实现）",
+    "lastGitCommitAt": "2025-12-14T19:00:00Z",
+    "stateFileVersion": 13,
+    "totalStateChanges": 13,
+    "lastUpdatedAt": "2025-12-14T19:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
