@@ -534,6 +534,36 @@
         "docs/architecture/iteration-1/状态管理模块-集成设计.md"
       ],
       "notes": "状态管理模块作为数据中枢，采用分层架构(API→Service→Repository→IO)，提供统一的状态读写接口，自动维护changeHistory，与核心流程模型紧密集成进行状态验证"
+    },
+    {
+      "timestamp": "2025-12-14T17:00:00Z",
+      "type": "architecture_supplement",
+      "description": "根据架构评审反馈，补充状态管理模块架构设计（6项遗漏问题）",
+      "changedBy": "ai",
+      "reviewFeedback": [
+        "问题1: 历史关键词识别逻辑未定义 - 已补充HistoryKeywordMatcher设计（混合策略）",
+        "问题2: 会话恢复触发机制不明确 - 已澄清为接口能力，由AI层面自动触发",
+        "问题3: 批量更新接口缺失 - 已补充batchUpdate()接口定义和实现设计",
+        "问题4: Testing子阶段验证归属不明确 - 已明确由核心流程模型定义validateTestSubPhaseTransition()",
+        "问题5: 缓存失效场景未覆盖 - 已选择v1.0接受限制，v1.1实现文件Hash校验",
+        "问题6: 迁移原子性细节未设计 - 已补充备份文件+事务日志+回滚机制"
+      ],
+      "changes": [
+        {
+          "field": "状态管理模块-数据模型设计.md.第十一节",
+          "from": null,
+          "to": "补充设计（6项问题的解决方案）"
+        },
+        {
+          "field": "核心流程模型-集成设计.md.第九节9.6",
+          "from": null,
+          "to": "新增validateTestSubPhaseTransition()接口"
+        }
+      ],
+      "artifacts": [
+        "docs/architecture/iteration-1/状态管理模块-数据模型设计.md (第十一节)",
+        "docs/architecture/iteration-1/核心流程模型-集成设计.md (第9.6节)"
+      ]
     }
   ],
   "settings": {
@@ -541,12 +571,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "9825b14",
-    "lastGitCommitMessage": "docs(architecture): 补充核心流程模型架构设计",
-    "lastGitCommitAt": "2025-12-14T15:00:00Z",
-    "stateFileVersion": 9,
-    "totalStateChanges": 9,
-    "lastUpdatedAt": "2025-12-14T16:00:00Z",
+    "lastGitCommit": "f039e6d",
+    "lastGitCommitMessage": "feat(architecture): 完成状态管理模块架构设计",
+    "lastGitCommitAt": "2025-12-14T16:00:00Z",
+    "stateFileVersion": 10,
+    "totalStateChanges": 10,
+    "lastUpdatedAt": "2025-12-14T17:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
