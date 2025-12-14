@@ -150,8 +150,14 @@
               ]
             },
             "状态管理模块": {
-              "status": "pending",
-              "priority": "P0"
+              "status": "in_progress",
+              "priority": "P0",
+              "startedAt": "2025-12-14T16:00:00Z",
+              "artifacts": [
+                "docs/architecture/iteration-1/状态管理模块-00-系统架构总览.md",
+                "docs/architecture/iteration-1/状态管理模块-数据模型设计.md",
+                "docs/architecture/iteration-1/状态管理模块-集成设计.md"
+              ]
             },
             "命令体系模块": {
               "status": "pending",
@@ -268,7 +274,73 @@
     },
     "状态管理模块": {
       "dependsOn": ["核心流程模型"],
-      "dependedBy": ["命令体系模块", "影响分析模块"]
+      "dependedBy": ["命令体系模块", "影响分析模块", "文档模板模块", "测试验证模块", "Git集成模块"],
+      "integrationPoints": [
+        {
+          "targetModule": "命令体系模块",
+          "interface": "readState(): Promise<State>",
+          "purpose": "命令执行时读取当前状态",
+          "dataFlow": "-> State",
+          "errorHandling": "throw StateFileNotFoundError",
+          "complexity": "simple"
+        },
+        {
+          "targetModule": "命令体系模块",
+          "interface": "updateModuleStatus(phase, module, status): Promise<UpdateResult>",
+          "purpose": "���令执行时更新模块状态",
+          "dataFlow": "phase + module + status -> UpdateResult",
+          "errorHandling": "return UpdateResult with errors",
+          "complexity": "simple"
+        },
+        {
+          "targetModule": "命令体系模块",
+          "interface": "transitionPhase(target): Promise<TransitionResult>",
+          "purpose": "执行阶段流转",
+          "dataFlow": "targetPhase -> TransitionResult",
+          "errorHandling": "return TransitionResult with errors",
+          "complexity": "simple"
+        },
+        {
+          "targetModule": "影响分析模块",
+          "interface": "getModuleDependencies(): Promise<ModuleDependencies>",
+          "purpose": "获取模块依赖关系进行影响分析",
+          "dataFlow": "-> ModuleDependencies",
+          "errorHandling": "throw StateFileNotFoundError",
+          "complexity": "simple"
+        },
+        {
+          "targetModule": "影响分析模块",
+          "interface": "readHistoryIteration(id): Promise<HistoricalIteration>",
+          "purpose": "读取历史迭代进行对比分析",
+          "dataFlow": "iterationId -> HistoricalIteration",
+          "errorHandling": "throw HistoryNotFoundError",
+          "complexity": "simple"
+        },
+        {
+          "targetModule": "文档模板模块",
+          "interface": "readState(): Promise<State>",
+          "purpose": "读取状态填充模板变量",
+          "dataFlow": "-> State",
+          "errorHandling": "throw StateFileNotFoundError",
+          "complexity": "simple"
+        },
+        {
+          "targetModule": "测试验证模块",
+          "interface": "updateTestSubPhaseStatus(subPhase, status): Promise<UpdateResult>",
+          "purpose": "更新Testing子阶段状态",
+          "dataFlow": "subPhase + status -> UpdateResult",
+          "errorHandling": "return UpdateResult with errors",
+          "complexity": "simple"
+        },
+        {
+          "targetModule": "Git集成模块",
+          "interface": "updateGitMetadata(hash, message): Promise<void>",
+          "purpose": "更新Git相关元数据",
+          "dataFlow": "hash + message -> void",
+          "errorHandling": "throw Error",
+          "complexity": "simple"
+        }
+      ]
     },
     "命令体系模块": {
       "dependsOn": ["核心流程模型", "状态管理模块"],
@@ -433,6 +505,35 @@
         "docs/architecture/iteration-1/核心流程模型-数据模型设计.md (第十一节)",
         "docs/architecture/iteration-1/核心流程模型-集成设计.md (第九节)"
       ]
+    },
+    {
+      "timestamp": "2025-12-14T16:00:00Z",
+      "type": "module_completed",
+      "description": "完成状态管理模块架构设计，待用户审批",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "phases.architecture.modules.状态管理模块.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "phases.architecture.modules.状态管理模块.artifacts",
+          "from": null,
+          "to": "3 architecture documents (系统架构总览、数据模型设计、集成设计)"
+        },
+        {
+          "field": "moduleDependencies.状态管理模块.integrationPoints",
+          "from": null,
+          "to": "8 integration points (与5个模块的集成)"
+        }
+      ],
+      "artifacts": [
+        "docs/architecture/iteration-1/状态管理模块-00-系统架构总览.md",
+        "docs/architecture/iteration-1/状态管理模块-数据模型设计.md",
+        "docs/architecture/iteration-1/状态管理模块-集成设计.md"
+      ],
+      "notes": "状态管理模块作为数据中枢，采用分层架构(API→Service→Repository→IO)，提供统一的状态读写接口，自动维护changeHistory，与核心流程模型紧密集成进行状态验证"
     }
   ],
   "settings": {
@@ -443,9 +544,9 @@
     "lastGitCommit": "9825b14",
     "lastGitCommitMessage": "docs(architecture): 补充核心流程模型架构设计",
     "lastGitCommitAt": "2025-12-14T15:00:00Z",
-    "stateFileVersion": 8,
-    "totalStateChanges": 8,
-    "lastUpdatedAt": "2025-12-14T15:00:00Z",
+    "stateFileVersion": 9,
+    "totalStateChanges": 9,
+    "lastUpdatedAt": "2025-12-14T16:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
