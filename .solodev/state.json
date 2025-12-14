@@ -364,23 +364,7 @@
     }
   },
   "globalTasks": {
-    "pending": [
-      {
-        "id": "task-002",
-        "title": "审批PRD补充：上下文加载能力",
-        "description": "在架构评审阶段发现PRD缺失'上下文加载能力'设计。这是一个产品能力（代码实现），由状态管理模块提供接口。已补充到PRD.md（4.2节）、状态管理模块-PRD.md（3.5节）和命令体系模块-PRD.md（4.2节）。",
-        "priority": "P0",
-        "createdAt": "2025-12-14T18:00:00Z",
-        "relatedPhase": "requirements",
-        "affectedModules": ["状态管理模块", "命令体系模块"],
-        "artifacts": [
-          "docs/PRD/PRD.md（4.2 上下文加载能力）",
-          "docs/PRD/modules/状态管理模块-PRD.md（3.5 上下文加载能力）",
-          "docs/PRD/modules/命令体系模块-PRD.md（4.2 上下文加载集成）"
-        ],
-        "context": "用户核心诉求：确保AI在执行任务时专注于当前任务上下文。这是产品能力而非规范，由代码实现强制控制，而非依赖AI遵守Prompt引导。"
-      }
-    ],
+    "pending": [],
     "completed": [
       {
         "id": "task-001",
@@ -390,6 +374,22 @@
         "createdAt": "2025-12-14T00:00:00Z",
         "completedAt": "2025-12-14T11:00:00Z",
         "resolution": "用户接受选项B，进入Architecture阶段"
+      },
+      {
+        "id": "task-002",
+        "title": "审批PRD补充：上下文加载能力",
+        "description": "在架构评审阶段发现PRD缺失'上下文加载能力'设计。这是一个产品能力（代码实现），由状态管理模块提供接口。已补充到PRD.md（4.2节）、状态管理模块-PRD.md（3.5节）和命令体系模块-PRD.md（4.2节）。",
+        "priority": "P0",
+        "createdAt": "2025-12-14T18:00:00Z",
+        "completedAt": "2025-12-15T00:00:00Z",
+        "relatedPhase": "requirements",
+        "affectedModules": ["状态管理模块", "命令体系模块"],
+        "artifacts": [
+          "docs/PRD/PRD.md（4.2 上下文加载能力）",
+          "docs/PRD/modules/状态管理模块-PRD.md（3.5 上下文加载能力）",
+          "docs/PRD/modules/命令体系模块-PRD.md（4.2 上下文加载集成）"
+        ],
+        "resolution": "用户评审通过，补充了6项缺失内容：动态计算规则、依赖模块解析规则、错误处理定义、/custom-task --modules参数、非功能需求、执行时机明确化"
       }
     ]
   },
@@ -691,6 +691,53 @@
         "验证接口": ["validateDocumentReferences()", "scanAllReferences()", "checkSectionIdCoverage()"],
         "验证规则": ["文件存在性检查", "章节ID存在性检查", "必须章节ID检查", "内容一致性检查"]
       }
+    },
+    {
+      "timestamp": "2025-12-15T00:00:00Z",
+      "type": "requirements_approved",
+      "description": "用户评审通过'上下文加载能力'PRD设计，补充6项缺失内容",
+      "changedBy": "ai",
+      "trigger": "用户提交评审报告temp_report.md，指出6个需要澄清或补充的问题",
+      "reviewFeedback": [
+        "问题1: 模块级加载规则不够详细 - 已补充动态计算公式",
+        "问题2: 依赖模块架构的动态解析 - 已明确只加载status=approved的依赖模块文档",
+        "问题3: 错误处理未定义 - 已补充ContextResult扩展（success, warnings, error）",
+        "问题4: /custom-task的上下文推断逻辑未定义 - 已采用方案C（用户显式指定--modules参数）",
+        "问题5: 缺少非功能需求 - 已补充性能、大小限制、超限处理、缓存策略",
+        "问题6: 执行时机表述模糊 - 已明确为命令解析成功且状态检查通过之后、执行任务之前"
+      ],
+      "changes": [
+        {
+          "field": "docs/PRD/PRD.md 4.2节",
+          "from": "基础设计（接口定义、加载规则、示例）",
+          "to": "完整设计（+动态计算公式、+错误处理、+执行时机、+/custom-task --modules、+非功能需求）"
+        },
+        {
+          "field": "docs/PRD/modules/状态管理模块-PRD.md 3.5节",
+          "from": "基础设计",
+          "to": "完整设计（同上）"
+        },
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md 4.2节",
+          "from": "基础集成设计",
+          "to": "完整设计（+执行时机、+/custom-task命令格式和执行流程）"
+        },
+        {
+          "field": "globalTasks.pending",
+          "from": "1 task (task-002)",
+          "to": "0 tasks"
+        },
+        {
+          "field": "globalTasks.completed",
+          "from": "1 task",
+          "to": "2 tasks (task-002 completed)"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/PRD.md（4.2节完整设计）",
+        "docs/PRD/modules/状态管理模块-PRD.md（3.5节完整设计）",
+        "docs/PRD/modules/命令体系模块-PRD.md（4.2节完整设计、故事11更新）"
+      ]
     }
   ],
   "settings": {
@@ -701,9 +748,9 @@
     "lastGitCommit": "c59bbdf",
     "lastGitCommitMessage": "feat(prd): 添加文档引用验证需求",
     "lastGitCommitAt": "2025-12-14T20:00:00Z",
-    "stateFileVersion": 14,
-    "totalStateChanges": 14,
-    "lastUpdatedAt": "2025-12-14T20:00:00Z",
+    "stateFileVersion": 15,
+    "totalStateChanges": 15,
+    "lastUpdatedAt": "2025-12-15T00:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {

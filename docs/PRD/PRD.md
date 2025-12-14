@@ -297,14 +297,19 @@ getContextForModule(module: string, phase: Phase): ContextResult
 
 // 返回类型
 interface ContextResult {
+  success: boolean;          // 是否成功获取上下文
   files: string[];           // 需要加载的文件路径列表
   templates: string[];       // 需要加载的模板
   stateFields: string[];     // 需要读取的state.json字段
   description: string;       // 上下文描述（供AI理解）
+  warnings?: string[];       // 非阻断性警告（如：依赖模块文档尚未完成）
+  error?: string;            // 阻断性错误（如：模块名无效）
 }
 ```
 
 #### 4.2.3 上下文加载规则
+
+**阶段级规则（基础上下文）**：
 
 | 阶段 | 自动加载的上下文 |
 |------|------------------|
@@ -314,6 +319,21 @@ interface ContextResult {
 | **testing** | state.json, PRD验收标准, 架构文档, 实现代码 |
 | **deployment** | state.json, 架构文档, 部署模板 |
 
+**模块级规则（动态计算）**：
+
+模块级上下文采用**动态计算**方式，计算公式如下：
+
+```
+模块级上下文 = 基础上下文(阶段级)
+             + 当前模块文档(PRD + 已完成阶段产出物)
+             + 依赖模块文档(仅status=approved的架构文档)
+```
+
+**依赖模块解析规则**：
+- 依赖来源：`state.json.moduleDependencies[模块名].dependsOn`
+- 过滤规则：**只加载 `status=approved` 的依赖模块文档**
+- 未完成时行为：跳过并记录warning
+
 **模块级加载示例**：
 
 ```typescript
@@ -322,9 +342,10 @@ getContextForModule("状态管理模块", "architecture")
 
 // 返回：
 {
+  success: true,
   files: [
     "docs/PRD/modules/状态管理模块-PRD.md",
-    "docs/architecture/iteration-1/核心流程模型-*.md"  // 依赖模块的架构
+    "docs/architecture/iteration-1/核心流程模型-*.md"  // 依赖模块的架构（已approved）
   ],
   templates: [
     ".solodev/templates/architecture-系统架构总览.md",
@@ -336,22 +357,77 @@ getContextForModule("状态管理模块", "architecture")
     "moduleDependencies.状态管理模块",
     "phases.architecture.modules.状态管理模块"
   ],
-  description: "状态管理模块架构设计上下文：包含该模块PRD、依赖模块架构、架构模板"
+  description: "状态管理模块架构设计上下文：包含该模块PRD、依赖模块架构、架构模板",
+  warnings: []  // 所有依赖模块架构已完成
 }
 ```
 
-#### 4.2.4 实现方式
+#### 4.2.4 错误处理
 
-**执行时机**：命令执行时自动调用，无需用户干预。
+| 错误场景 | 行为 | 示例 |
+|----------|------|------|
+| **模块名无效** | `success=false`, 返回error | `error: "模块名无效: xxx"` |
+| **阶段名无效** | `success=false`, 返回error | `error: "阶段名无效: xxx"` |
+| **依赖模块文档不存在** | `success=true`, 返回warning | `warnings: ["依赖模块X的架构文档尚未完成"]` |
+| **依赖模块未approved** | `success=true`, 跳过并返回warning | `warnings: ["依赖模块X的架构文档尚未审批通过"]` |
+
+**错误处理示例**：
+
+```typescript
+// 模块名无效
+getContextForModule("不存在的模块", "architecture")
+// 返回：
+{
+  success: false,
+  files: [],
+  templates: [],
+  stateFields: [],
+  description: "",
+  error: "模块名无效: 不存在的模块"
+}
+
+// 依赖模块文档未完成
+getContextForModule("命令体系模块", "architecture")
+// 返回（假设状态管理模块架构未完成）：
+{
+  success: true,
+  files: [
+    "docs/PRD/modules/命令体系模块-PRD.md",
+    "docs/architecture/iteration-1/核心流程模型-*.md"  // 核心流程模型已approved
+    // 注意：状态管理模块架构未加载（未approved）
+  ],
+  // ...其他字段...
+  warnings: ["依赖模块'状态管理模块'的架构文档尚未审批通过，已跳过"]
+}
+```
+
+#### 4.2.5 执行时机
+
+命令执行时自动调用，具体位置：
+
+```
+命令输入 → 命令解析 → 状态检查 → 【上下文加载】 → 执行任务 → 更新状态
+                                    ↑
+                        命令解析成功 && 状态检查通过
+                        之后，执行任务之前
+```
+
+**详细流程**：
 
 ```
 用户执行命令 /start-architecture
         ↓
 命令体系模块解析命令
         ↓
+状态检查：验证requirements阶段已完成
+        ↓
 调用 getContextForModule(currentModule, "architecture")
         ↓
 状态管理模块返回上下文列表
+        ↓
+检查返回结果：
+  ├─ success=false → 终止执行，显示error
+  └─ success=true → 继续（如有warnings则显示警告）
         ↓
 命令体系模块将上下文注入AI会话
         ↓
@@ -365,7 +441,7 @@ AI基于精确上下文执行任务
 | **状态管理模块** | 提供 getContextForPhase/getContextForModule 接口，定义各阶段上下文规则 |
 | **命令体系模块** | 命令执行时调用上下文接口，注入AI会话 |
 
-#### 4.2.5 逃逸命令（处理边缘情况）
+#### 4.2.6 逃逸命令（处理边缘情况）
 
 当预定义命令无法覆盖新场景时，提供以下逃逸命令：
 
@@ -375,10 +451,27 @@ AI基于精确上下文执行任务
 
 > **说明**：`/expand-context` 暂不实现。命令都是单独执行的，每个命令有预定义的上下文规则。如果需要扩展上下文，可以通过 `/custom-task` 创建自定义任务来实现。
 
+**`/custom-task` 上下文推断逻辑**：
+
+采用**用户显式指定**方案，不依赖AI理解能力推断上下文：
+
+```bash
+# 命令格式
+/custom-task [--modules=模块1,模块2] "任务描述"
+
+# 示例1：不指定模块，仅加载阶段级上下文
+/custom-task "分析当前架构的性能瓶颈"
+→ 加载当前阶段的基础上下文
+
+# 示例2：指定模块，加载模块级上下文
+/custom-task --modules=核心流程模型,状态管理模块 "分析两个模块的集成点"
+→ 加载指定模块的上下文（PRD + 架构文档 + state.json相关字段）
+```
+
 **`/custom-task` 使用示例**：
 
 ```
-用户: /custom-task "分析核心流程模型和状态管理模块的集成点"
+用户: /custom-task --modules=核心流程模型,状态管理模块 "分析集成点"
 
 AI响应:
 任务已创建。自动加载上下文：
@@ -390,6 +483,15 @@ AI响应:
 
 是否开始执行？
 ```
+
+#### 4.2.7 非功能需求
+
+| 维度 | 要求 | 说明 |
+|------|------|------|
+| **性能** | 上下文加载时间 < 100ms | 不包括文件实际读取时间 |
+| **大小限制** | 单次加载文件总大小 < 500KB | 约10万tokens，避免token爆炸 |
+| **超限处理** | 按优先级裁剪 | 优先保留：当前模块PRD > 当前模块架构 > 依赖模块架构 |
+| **缓存** | v1.0不实现缓存 | v1.1考虑实现文件Hash校验缓存 |
 
 ### 4.3 五阶段流程概览 {#prd-project-五阶段}
 
