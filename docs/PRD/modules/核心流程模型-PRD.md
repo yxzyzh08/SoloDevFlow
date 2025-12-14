@@ -7,6 +7,12 @@
 
 ---
 
+<!--
+章节ID规范说明：
+- 格式：{#prd-核心流程-[章节编号]}
+- 必须标注ID的章节：详细功能点、用户故事与验收标准
+-->
+
 ## 一、模块愿景
 
 定义AI超级个体开发助手的**双层迭代模型**、**五阶段流转机制**和**反馈循环系统**，确保从需求到部署的完整闭环。
@@ -25,7 +31,7 @@
 
 ## 三、详细功能点
 
-### 3.1 双层迭代模型
+### 3.1 双层迭代模型 {#prd-核心流程-3.1}
 
 #### 迭代层（宏观）
 
@@ -65,7 +71,7 @@ requirements → architecture → implementation → testing → deployment
 - **反馈循环A**（架构阶段）：发现需求问题 → 回滚到需求分析
 - **反馈循环B**（测试阶段）：测试失败 → 分析根因 → 回滚到对应阶段
 
-### 3.2 五阶段详细定义
+### 3.2 五阶段详细定义 {#prd-核心流程-3.2}
 
 #### 阶段1：需求分析（Requirements）
 
@@ -196,7 +202,7 @@ requirements → architecture → implementation → testing → deployment
 - docs/deployment/iteration-X/运维手册.md
 - .github/workflows/deploy.yml（CI/CD配置）
 
-### 3.3 有条件并行机制
+### 3.3 有条件并行机制 {#prd-核心流程-3.3}
 
 **核心规则**：基础模块必须先完成当前阶段，依赖模块才能进入下一阶段
 
@@ -234,7 +240,7 @@ requirements → architecture → implementation → testing → deployment
 
 ---
 
-## 四、用户故事与验收标准
+## 四、用户故事与验收标准 {#prd-核心流程-验收标准}
 
 ### 故事1：完整走完五阶段流程
 
