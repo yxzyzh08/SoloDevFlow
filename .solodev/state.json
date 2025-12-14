@@ -762,6 +762,38 @@
         "测试文档必须标注": ["用例清单", "测试结果"],
         "部署文档必须标注": ["前置条件", "部署步骤", "回滚步骤"]
       }
+    },
+    {
+      "timestamp": "2025-12-15T02:00:00Z",
+      "type": "requirements_approved",
+      "description": "根据评审反馈完善章节ID标注规范：统一使用章节名称、增加唯一性校验、补充中文锚点处理",
+      "changedBy": "ai",
+      "trigger": "用户提交评审报告temp_report_1.md，提出3项P1/P2改进建议",
+      "reviewFeedback": [
+        "P1: ID标识符命名不一致 - 已统一使用章节名称而非编号",
+        "P2: 缺少ID唯一性约束 - 已增加规则5和DuplicateIdInfo接口",
+        "P2: 中文ID的技术兼容性 - 已补充中文锚点处理规则和规范化函数"
+      ],
+      "changes": [
+        {
+          "field": "docs/PRD/modules/文档模板模块-PRD.md 4.4.2节",
+          "from": "ID格式使用章节编号或名称",
+          "to": "统一使用章节名称（+原因说明、+中文锚点处理规则、+规范化函数）"
+        },
+        {
+          "field": "docs/PRD/modules/文档模板模块-PRD.md 4.4.4节",
+          "from": "ReferenceValidationResult无duplicateId字段",
+          "to": "新增duplicateId字段和DuplicateIdInfo接口"
+        },
+        {
+          "field": "docs/PRD/modules/文档模板模块-PRD.md 4.4.5节",
+          "from": "4条验证规则",
+          "to": "5条验证规则（+规则5 ID唯一性检查、+验证规则汇总表）"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/modules/文档模板模块-PRD.md（4.4.2/4.4.4/4.4.5节更新）"
+      ]
     }
   ],
   "settings": {
@@ -772,9 +804,9 @@
     "lastGitCommit": "21cdeb0",
     "lastGitCommitMessage": "docs(prd): 完善章节ID规范，补充设计理念和统一标注规则",
     "lastGitCommitAt": "2025-12-15T01:00:00Z",
-    "stateFileVersion": 16,
-    "totalStateChanges": 16,
-    "lastUpdatedAt": "2025-12-15T01:00:00Z",
+    "stateFileVersion": 17,
+    "totalStateChanges": 17,
+    "lastUpdatedAt": "2025-12-15T02:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
