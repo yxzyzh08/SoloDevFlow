@@ -1202,6 +1202,46 @@
         "docs/architecture/iteration-1/命令体系模块-集成设计.md"
       ],
       "notes": "命令体系模块架构设计要点：Command-as-Configuration模式、5大审批点机制、上下文驱动执行、与状态管理/核心流程/文档模板/Git模块的集成设计"
+    },
+    {
+      "timestamp": "2025-12-15T09:30:00Z",
+      "type": "requirements_clarification",
+      "description": "移除断点恢复机制需求，保留会话恢复能力",
+      "changedBy": "ai",
+      "trigger": "用户指出：会话中断时无法可靠捕获中断事件和保存状态，断点恢复机制不可行",
+      "userDecision": "同意移除断点恢复机制，保留会话恢复能力（每次新会话读取state.json继续工作）",
+      "changes": [
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md 5.2节",
+          "from": "命令执行中断 → 保存进度 → 下次恢复",
+          "to": "移除该行"
+        },
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md 6.2节",
+          "from": "可恢复性：命令中断后可从中断点恢复",
+          "to": "会话恢复：每次新会话读取state.json继续工作（不支持断点恢复）"
+        },
+        {
+          "field": "docs/PRD/modules/核心流程模型-PRD.md 六、非功能需求",
+          "from": "可恢复性：任何阶段中断后能恢复到中断点",
+          "to": "会话恢复：每次新会话读取state.json继续工作（不支持断点恢复）"
+        },
+        {
+          "field": "docs/architecture/iteration-1/命令体系模块架构文档 5.2节",
+          "from": "容错机制：命令执行中断时保存进度，下次从中断点恢复",
+          "to": "容错机制：命令失败回滚，会话恢复（不支持断点恢复）"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/modules/命令体系模块-PRD.md",
+        "docs/PRD/modules/核心流程模型-PRD.md",
+        "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md"
+      ],
+      "clarification": {
+        "removed": "断点恢复机制（命令执行中途中断，下次从中断点恢复）",
+        "retained": "会话恢复能力（每次新会话读取state.json，了解当前进度继续工作）",
+        "reason": "会话中断时（终端关闭、网络断开、超时）无法捕获中断事件，无法可靠保存状态"
+      }
     }
   ],
   "settings": {
@@ -1212,9 +1252,9 @@
     "lastGitCommit": "839d189",
     "lastGitCommitMessage": "docs(architecture): 完成命令体系模块架构设计",
     "lastGitCommitAt": "2025-12-15T09:00:00Z",
-    "stateFileVersion": 28,
-    "totalStateChanges": 28,
-    "lastUpdatedAt": "2025-12-15T09:00:00Z",
+    "stateFileVersion": 29,
+    "totalStateChanges": 29,
+    "lastUpdatedAt": "2025-12-15T09:30:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {

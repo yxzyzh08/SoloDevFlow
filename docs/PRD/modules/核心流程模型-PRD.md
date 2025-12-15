@@ -356,11 +356,12 @@ requirements → architecture → implementation → testing → deployment
 
 ## 六、非功能需求
 
-### 可恢复性
+### 会话恢复
 
-- 任何阶段中断后，下次会话能够恢复到中断点
+- 每次新会话开始时，读取state.json了解当前阶段和模块进度
 - state.json记录当前阶段和模块状态
-- AI主动提示上次进度
+- AI主动提示上次进度，继续未完成的工作
+- 注：不支持命令执行中途的断点恢复（会话中断时无法可靠捕获状态）
 
 ### 可追溯性
 
