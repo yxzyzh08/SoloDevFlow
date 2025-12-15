@@ -295,17 +295,22 @@ AI基于精确上下文执行任务
 验收标准：
   - [ ] 输入 /init 命令后，AI检查当前目录是否已初始化
   - [ ] 如已初始化（.solodev/state.json存在），AI提示："项目已初始化，无需重复执行"
-  - [ ] 如未初始化，AI创建项目结构：
+  - [ ] 如未初始化，AI通过交互询问获取项目信息：
+    - 询问1："请输入项目名称："
+    - 询问2："请选择项目类型：1) backend  2) frontend  3) fullstack"
+  - [ ] AI创建项目结构：
     - .solodev/ 目录
     - .solodev/state.json（初始状态文件）
     - .solodev/templates/（文档模板目录，可选）
   - [ ] AI初始化state.json内容：
-    - project.name = 用户输入的项目名称
-    - project.type = 用户选择的项目类型（backend/frontend/fullstack）
+    - project.name = 交互获取的项目名称
+    - project.type = 交互选择的项目类型
     - currentIteration = "iteration-1"
     - iterations["iteration-1"].status = "in_progress"
     - iterations["iteration-1"].currentPhase = null（待执行/start-requirements）
   - [ ] AI提示下一步行动："项目初始化完成，请执行 /start-requirements 启动需求分析"
+
+注：/init命令无需参数，项目信息通过交互式问答获取，提升用户体验
 ```
 
 **故事 1：启动需求分析**
@@ -514,13 +519,15 @@ AI基于精确上下文执行任务
 
 ### 8.1 Iteration 1 (MVP)
 
-- **目标**：实现7个核心命令，支持完整的5阶段工作流
+- **目标**：实现9个核心命令，支持完整的5阶段工作流
 - **功能范围**：
+  - `/init`（项目初始化）
   - `/start-requirements`、`/approve-requirements`
   - `/start-architecture`、`/approve-architecture`
   - `/start-implementation`
   - `/start-testing`
   - `/start-deployment`
+  - `/custom-task`（自定义任务执行）
 - **验收标准**：
   - 所有命令可正常执行
   - 状态检查和审批点机制生效

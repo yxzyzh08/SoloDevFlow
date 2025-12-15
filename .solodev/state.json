@@ -1287,6 +1287,41 @@
         "P2_help_parameter": "补充--help/-h参数处理设计（HelpRequest接口、getHelp方法）",
         "P2_state_protection": "补充StateProtector状态保护机制（快照+验证+回滚）"
       }
+    },
+    {
+      "timestamp": "2025-12-15T10:30:00Z",
+      "type": "requirements_refinement",
+      "description": "根据用户P2建议完善/init命令设计和迭代规划",
+      "changedBy": "ai",
+      "trigger": "用户提出2个P2改进建议：(1)/init应通过交互询问获取项目信息 (2)迭代规划8.1节命令数量需更新",
+      "changes": [
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md 故事0",
+          "from": "通过命令参数指定项目名称和类型",
+          "to": "通过交互式问答获取项目信息（询问1:项目名称 询问2:项目类型选择）"
+        },
+        {
+          "field": "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md /init命令",
+          "from": "parameters: ['projectName', 'projectType']",
+          "to": "交互询问获取项目信息（无命令参数）"
+        },
+        {
+          "field": "docs/architecture/iteration-1/命令体系模块-数据模型设计.md COMMAND_REGISTRY",
+          "from": "init命令使用parameters数组",
+          "to": "init命令使用interactiveInputs数组（新增InteractiveInput接口）"
+        },
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md 8.1节",
+          "from": "实现7个核心命令",
+          "to": "实现9个核心命令（新增/init和/custom-task）"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/modules/命令体系模块-PRD.md",
+        "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
+        "docs/architecture/iteration-1/命令体系模块-数据模型设计.md"
+      ],
+      "rationale": "交互式获取项目信息比命令参数更友好，降低用户使用门槛"
     }
   ],
   "settings": {
@@ -1297,9 +1332,9 @@
     "lastGitCommit": "cbcec40",
     "lastGitCommitMessage": "docs(architecture): 根据评审补充/init命令和P2问题修复",
     "lastGitCommitAt": "2025-12-15T10:00:00Z",
-    "stateFileVersion": 30,
-    "totalStateChanges": 30,
-    "lastUpdatedAt": "2025-12-15T10:00:00Z",
+    "stateFileVersion": 31,
+    "totalStateChanges": 31,
+    "lastUpdatedAt": "2025-12-15T10:30:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
