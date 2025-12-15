@@ -157,8 +157,10 @@ Read file_path=".claude/guides/code-standards.md"
 - state.json + state_his.json拆分机制
 - 历史数据访问规则（影响分析）
 - 特殊场景处理（state.json不存在、损坏、回滚）
+- **状态验证**（npm run validate:state）
 
 **关键规则**：
+- ✅ 每次会话开始先验证state.json格式
 - ✅ 每次会话开始必读state.json
 - ✅ 完成一个模块立即更新state.json + Git commit
 - ✅ 迭代完成时迁移到state_his.json
@@ -175,11 +177,13 @@ Read file_path=".claude/guides/code-standards.md"
 - 模板使用流程（各阶段如何填充模板）
 - 模板填充示例
 - 实践原则（模板即规范、变量优先从state.json读取）
+- **文档引用验证**（npm run validate:refs）
 
 **关键规则**：
 - ✅ 所有文档必须基于模板生成
 - ✅ 生成时立即填充变量，不保留占位符
 - ✅ 变量优先从state.json读取
+- ✅ 生成后验证文档引用关系
 
 ---
 
@@ -287,10 +291,13 @@ CLAUDE.md（本文件）：定义AI角色、行为原则、输出结构、引用
 ### 会话开始流程
 
 ```
-1. 读取 .solodev/state.json
-2. 分析当前阶段（currentPhase）和当前进度
-3. 加载对应阶段的专项指南（见 5.2 节）
-4. 主动提示用户上次进度和建议的下一步行动
+1. 验证 state.json 格式（npm run validate:state）
+   - 格式错误 → 显示修复建议，等待用户修复
+   - 验证通过 → 继续
+2. 读取 .solodev/state.json
+3. 分析当前阶段（currentPhase）和当前进度
+4. 加载对应阶段的专项指南（见 5.2 节）
+5. 主动提示用户上次进度和建议的下一步行动
 ```
 
 ### 状态更新流程
@@ -310,7 +317,11 @@ CLAUDE.md（本文件）：定义AI角色、行为原则、输出结构、引用
 2. 从 state.json 读取变量值（项目名、版本号、迭代等）
 3. 填充模板内容（基于澄清结果或设计决策）
 4. 生成完整文档到 docs/[阶段]/iteration-X/
-5. 提交给用户审批
+5. 验证文档引用（npm run validate:refs）
+   - 文件/章节引用错误 → 修复后再提交
+   - 缺失章节ID → 警告，可继续
+   - 验证通过 → 继续
+6. 提交给用户审批
 ```
 
 ### 代码实现流程（Implementation阶段）
@@ -356,6 +367,7 @@ CLAUDE.md（本文件）：定义AI角色、行为原则、输出结构、引用
 
 ### 状态管理原则
 
+- ✅ 每次会话开始先验证 state.json（npm run validate:state）
 - ✅ 每次会话开始必读 state.json
 - ✅ 及时更新状态（完成一个模块立即更新 + commit）
 - ✅ 提供清晰的上下文（告诉用户上次进度和下一步建议）
@@ -365,6 +377,7 @@ CLAUDE.md（本文件）：定义AI角色、行为原则、输出结构、引用
 - ✅ 模板即规范（所有文档必须基于模板生成）
 - ✅ 变量优先从 state.json 读取
 - ✅ 生成时立即填充，不保留占位符
+- ✅ 生成后验证引用（npm run validate:refs）
 
 ### 代码实现原则
 
@@ -384,6 +397,20 @@ CLAUDE.md（本文件）：定义AI角色、行为原则、输出结构、引用
 - ✅ Commit message必须规范（<type>(<scope>): <subject>）
 - ✅ 同一操作的文件一起commit（保持原子性）
 - ✅ Hotfix必须标记清楚（[HOTFIX]前缀 + hotfix type）
+
+### 验证原则
+
+- ✅ 会话开始时验证 state.json 格式（阻断性错误必须修复）
+- ✅ 文档生成后验证引用关系（文件/章节错误必须修复）
+- ✅ 缺失章节ID为警告（可继续，建议补充）
+- ✅ 重复章节ID为错误（必须修复）
+
+**验证命令**：
+```bash
+npm run validate:state   # 验证 state.json
+npm run validate:refs    # 验证文档引用
+npm run validate:all     # 全部验证
+```
 
 ---
 
