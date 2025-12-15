@@ -39,6 +39,15 @@ import { FileIO } from '../io/file-io';
 
 export interface IStateManager {
   // =========================================================================
+  // 初始化操作
+  // =========================================================================
+
+  /**
+   * 初始化项目
+   */
+  initialize(options: { projectName: string; description?: string }): Promise<void>;
+
+  // =========================================================================
   // 读取操作
   // =========================================================================
 
@@ -112,6 +121,16 @@ export interface IStateManager {
   transitionPhase(targetPhase: string): Promise<TransitionResult>;
 
   /**
+   * 开始阶段
+   */
+  startPhase(phase: PhaseName): Promise<TransitionResult>;
+
+  /**
+   * 回滚到指定阶段
+   */
+  rollbackToPhase(phase: PhaseName, reason: string): Promise<TransitionResult>;
+
+  /**
    * 审批阶段
    */
   approvePhase(phaseName: string, approvedBy: string): Promise<ApproveResult>;
@@ -165,6 +184,17 @@ export class StateManager implements IStateManager {
     const fileIO = options?.fileIO ?? new FileIO(options?.basePath);
     this.repository = options?.repository ?? new StateRepository(fileIO);
     this.service = options?.service ?? new StateService(this.repository);
+  }
+
+  // =========================================================================
+  // 初始化操作
+  // =========================================================================
+
+  /**
+   * 初始化项目
+   */
+  async initialize(options: { projectName: string; description?: string }): Promise<void> {
+    return this.service.initialize(options);
   }
 
   // =========================================================================
@@ -265,6 +295,20 @@ export class StateManager implements IStateManager {
    */
   async transitionPhase(targetPhase: string): Promise<TransitionResult> {
     return this.service.transitionPhase(targetPhase);
+  }
+
+  /**
+   * 开始阶段
+   */
+  async startPhase(phase: PhaseName): Promise<TransitionResult> {
+    return this.service.startPhase(phase);
+  }
+
+  /**
+   * 回滚到指定阶段
+   */
+  async rollbackToPhase(phase: PhaseName, reason: string): Promise<TransitionResult> {
+    return this.service.rollbackToPhase(phase, reason);
   }
 
   /**

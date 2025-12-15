@@ -86,6 +86,9 @@ export class ModuleStatusError extends Error {
 // ============================================================================
 
 export interface IStateService {
+  // 初始化操作
+  initialize(options: { projectName: string; description?: string }): Promise<void>;
+
   // 读取操作
   getState(): Promise<State>;
   getCurrentIteration(): Promise<Iteration>;
@@ -111,6 +114,10 @@ export interface IStateService {
 
   transitionPhase(targetPhase: string): Promise<TransitionResult>;
 
+  startPhase(phase: PhaseName): Promise<TransitionResult>;
+
+  rollbackToPhase(phase: PhaseName, reason: string): Promise<TransitionResult>;
+
   approvePhase(phaseName: string, approvedBy: string): Promise<ApproveResult>;
 
   // 元数据更新
@@ -132,6 +139,87 @@ export class StateService implements IStateService {
 
   constructor(repository?: IStateRepository) {
     this.repository = repository ?? new StateRepository();
+  }
+
+  // =========================================================================
+  // 初始化操作
+  // =========================================================================
+
+  /**
+   * 初始化项目
+   */
+  async initialize(options: { projectName: string; description?: string }): Promise<void> {
+    const now = new Date().toISOString();
+
+    // 创建初始状态
+    const initialState: State = {
+      schema_version: '1.0.0',
+      project: {
+        name: options.projectName,
+        description: options.description || '',
+        type: 'backend',
+        createdAt: now
+      },
+      bootstrap: {
+        isBootstrap: false,
+        phase: '',
+        description: '',
+        stages: {},
+        features: []
+      },
+      currentIteration: 'iteration-1',
+      iterations: {
+        'iteration-1': {
+          id: 'iteration-1',
+          version: 'v1.0.0',
+          status: 'pending',
+          startedAt: now,
+          currentPhase: 'requirements',
+          phases: {
+            requirements: {
+              status: 'pending',
+              modules: {}
+            },
+            architecture: {
+              status: 'pending',
+              modules: {},
+              integrationPoints: []
+            },
+            implementation: {
+              status: 'pending',
+              modules: {}
+            },
+            testing: {
+              status: 'pending',
+              testPhases: {}
+            },
+            deployment: {
+              status: 'pending'
+            }
+          }
+        }
+      },
+      metadata: {
+        version: 'v1.0.0',
+        projectName: options.projectName,
+        createdAt: now,
+        lastModified: now,
+        lastGitCommit: '',
+        changeHistory: [
+          {
+            timestamp: now,
+            type: 'initialization',
+            description: '项目初始化',
+            changes: [
+              { field: 'project.name', from: null, to: options.projectName }
+            ]
+          }
+        ]
+      }
+    };
+
+    // 写入文件
+    await this.repository.write(initialState);
   }
 
   // =========================================================================
@@ -413,6 +501,128 @@ export class StateService implements IStateService {
     return {
       success: true,
       newPhase: targetPhase
+    };
+  }
+
+  /**
+   * 开始阶段
+   */
+  async startPhase(phase: PhaseName): Promise<TransitionResult> {
+    const state = await this.getState();
+    const iteration = state.iterations[state.currentIteration];
+
+    // 验证阶段是否存在
+    const phaseState = iteration.phases[phase];
+    if (!phaseState) {
+      return {
+        success: false,
+        errors: [`阶段 ${phase} 不存在`]
+      };
+    }
+
+    // 验证阶段状态
+    if (phaseState.status !== 'pending' && phaseState.status !== 'approved') {
+      return {
+        success: false,
+        errors: [`阶段 ${phase} 已经在进行中或已完成，当前状态: ${phaseState.status}`]
+      };
+    }
+
+    const now = new Date().toISOString();
+
+    // 更新迭代状态（如果还未开始）
+    if (iteration.status === 'pending') {
+      iteration.status = 'in_progress';
+    }
+
+    // 更新当前阶段
+    iteration.currentPhase = phase;
+
+    // 开始新阶段
+    phaseState.startedAt = now;
+    phaseState.status = 'in_progress';
+
+    // 记录变更
+    this.recordChange(state, {
+      type: 'phase_start',
+      description: `开始 ${phase} 阶段`,
+      changes: [
+        { field: 'currentPhase', from: iteration.currentPhase, to: phase },
+        { field: `phases.${phase}.status`, from: 'pending', to: 'in_progress' }
+      ]
+    });
+
+    // 写入
+    await this.repository.write(state);
+
+    return {
+      success: true,
+      newPhase: phase
+    };
+  }
+
+  /**
+   * 回滚到指定阶段
+   */
+  async rollbackToPhase(phase: PhaseName, reason: string): Promise<TransitionResult> {
+    const state = await this.getState();
+    const iteration = state.iterations[state.currentIteration];
+    const currentPhase = iteration.currentPhase;
+
+    // 验证目标阶段存在
+    const targetPhaseState = iteration.phases[phase];
+    if (!targetPhaseState) {
+      return {
+        success: false,
+        errors: [`阶段 ${phase} 不存在`]
+      };
+    }
+
+    // 验证回滚方向（只能向前回滚）
+    const currentIndex = PHASE_ORDER.indexOf(currentPhase as PhaseName);
+    const targetIndex = PHASE_ORDER.indexOf(phase);
+
+    if (targetIndex >= currentIndex) {
+      return {
+        success: false,
+        errors: [`无法回滚：目标阶段 ${phase} 不在当前阶段 ${currentPhase} 之前`]
+      };
+    }
+
+    const now = new Date().toISOString();
+
+    // 重置当前阶段及之后的所有阶段
+    for (let i = targetIndex; i <= currentIndex; i++) {
+      const phaseName = PHASE_ORDER[i];
+      const phaseState = iteration.phases[phaseName];
+
+      // 重置阶段状态
+      phaseState.status = 'pending';
+      delete phaseState.startedAt;
+      delete phaseState.completedAt;
+      delete phaseState.approvedAt;
+      delete phaseState.approvedBy;
+    }
+
+    // 更新当前阶段
+    iteration.currentPhase = phase;
+
+    // 记录变更
+    this.recordChange(state, {
+      type: 'rollback',
+      description: `回滚到 ${phase} 阶段: ${reason}`,
+      changes: [
+        { field: 'currentPhase', from: currentPhase, to: phase },
+        { field: `phases.${phase}.status`, from: 'completed', to: 'pending' }
+      ]
+    });
+
+    // 写入
+    await this.repository.write(state);
+
+    return {
+      success: true,
+      newPhase: phase
     };
   }
 
