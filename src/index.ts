@@ -8,3 +8,6 @@
 
 // 导出验证器模块
 export * from './validators/index.js';
+
+// 导出上下文加载模块
+export * from './context/index.js';

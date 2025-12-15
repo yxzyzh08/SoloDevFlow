@@ -8,7 +8,9 @@
     "build": "tsc",
     "validate:state": "npx tsx src/validators/cli.ts state",
     "validate:refs": "npx tsx src/validators/cli.ts refs",
-    "validate:all": "npx tsx src/validators/cli.ts all"
+    "validate:all": "npx tsx src/validators/cli.ts all",
+    "context:phase": "npx tsx src/context/context-loader.ts phase",
+    "context:module": "npx tsx src/context/context-loader.ts module"
   },
   "keywords": ["ai", "development", "assistant", "solo-developer"],
   "author": "SoloDevFlow",
