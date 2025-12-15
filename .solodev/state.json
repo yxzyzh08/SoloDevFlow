@@ -426,20 +426,21 @@
     }
   },
   "globalTasks": {
-    "pending": [
+    "pending": [],
+    "completed": [
       {
         "id": "task-004",
         "title": "添加上下文加载接口到StateManager",
         "description": "状态管理模块架构评审条件：在StateManager类中暴露getContextForPhase和getContextForModule接口（PRD 3.5）",
         "priority": "P2",
         "createdAt": "2025-12-15T04:00:00Z",
-        "deadline": "m1-5（现有文档全量验证之前）",
-        "relatedPhase": "architecture",
+        "completedAt": "2025-12-15T08:00:00Z",
+        "relatedPhase": "implementation",
         "affectedModules": ["状态管理模块"],
-        "source": "架构评审报告temp_report_3.md"
-      }
-    ],
-    "completed": [
+        "source": "架构评审报告temp_report_3.md",
+        "resolution": "在src/context/context-loader.ts中实现getContextForPhase和getContextForModule接口，支持阶段级和模块级上下文加载",
+        "artifacts": ["src/context/context-loader.ts", "src/context/index.ts"]
+      },
       {
         "id": "task-003",
         "title": "补充修复建议到StateFileCorruptedError",
@@ -1075,6 +1076,26 @@
       ],
       "artifacts": ["CLAUDE.md"],
       "notes": "验证工具正式成为开发流程的一部分，确保状态文件和文档引用的可靠性"
+    },
+    {
+      "timestamp": "2025-12-15T08:00:00Z",
+      "type": "task_completed",
+      "description": "完成task-004：实现上下文加载接口（PRD 3.5）",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "globalTasks.task-004",
+          "from": "pending",
+          "to": "completed"
+        },
+        {
+          "field": "src/context/",
+          "from": null,
+          "to": "新增context-loader.ts和index.ts"
+        }
+      ],
+      "artifacts": ["src/context/context-loader.ts", "src/context/index.ts"],
+      "notes": "实现getContextForPhase和getContextForModule接口，支持阶段级和模块级上下文加载，包含依赖过滤和错误处理"
     }
   ],
   "settings": {
@@ -1082,12 +1103,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "20463c3",
-    "lastGitCommitMessage": "docs(规范): 将验证器集成到工作流程",
-    "lastGitCommitAt": "2025-12-15T07:30:00Z",
-    "stateFileVersion": 25,
-    "totalStateChanges": 25,
-    "lastUpdatedAt": "2025-12-15T07:30:00Z",
+    "lastGitCommit": "3762bb2",
+    "lastGitCommitMessage": "feat(context): 实现上下文加载接口 (task-004)",
+    "lastGitCommitAt": "2025-12-15T08:00:00Z",
+    "stateFileVersion": 26,
+    "totalStateChanges": 26,
+    "lastUpdatedAt": "2025-12-15T08:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
