@@ -1425,9 +1425,9 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "2865604",
-    "lastGitCommitMessage": "chore(state): 更新Git元数据",
-    "lastGitCommitAt": "2025-12-15T12:00:00Z",
+    "lastGitCommit": "a800fd7",
+    "lastGitCommitMessage": "refactor(prd): 简化Git集成模块为规范约定",
+    "lastGitCommitAt": "2025-12-15T13:00:00Z",
     "stateFileVersion": 34,
     "totalStateChanges": 34,
     "lastUpdatedAt": "2025-12-15T13:00:00Z",
