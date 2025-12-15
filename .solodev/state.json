@@ -122,7 +122,12 @@
             "name": "Git集成模块架构设计",
             "status": "in_progress",
             "startedAt": "2025-12-15T11:00:00Z",
-            "description": "完成Git集成模块架构设计"
+            "description": "完成Git集成模块架构设计（系统总览、数据模型、集成设计）",
+            "artifacts": [
+              "docs/architecture/iteration-1/Git集成模块-00-系统架构总览.md",
+              "docs/architecture/iteration-1/Git集成模块-数据模型设计.md",
+              "docs/architecture/iteration-1/Git集成模块-集成设计.md"
+            ]
           },
           {
             "id": "m2-3",
@@ -146,7 +151,7 @@
       }
     },
     "currentStage": "stage2_self_hosting",
-    "nextAction": "stage2进行中：命令体系模块有条件通过（/init延后），正在进行Git集成模块架构设计"
+    "nextAction": "stage2进行中：Git集成模块架构设计已完成，待用户审批。审批通过后继续影响分析模块架构设计"
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -289,14 +294,19 @@
             "Git集成模块": {
               "status": "in_progress",
               "priority": "P0",
-              "startedAt": "2025-12-15T11:00:00Z"
+              "startedAt": "2025-12-15T11:00:00Z",
+              "artifacts": [
+                "docs/architecture/iteration-1/Git集成模块-00-系统架构总览.md",
+                "docs/architecture/iteration-1/Git集成模块-数据模型设计.md",
+                "docs/architecture/iteration-1/Git集成模块-集成设计.md"
+              ]
             }
           },
           "currentProcess": {
             "currentModule": "Git集成模块",
             "completedModules": ["核心流程模型", "状态管理模块", "文档模板模块", "命令体系模块"],
             "remainingModules": ["影响分析模块", "测试验证模块"],
-            "nextAction": "进行Git集成模块架构设计"
+            "nextAction": "Git集成模块架构设计已完成，待用户审批。审批通过后继续影响分析模块架构设计"
           }
         },
         "implementation": {
@@ -1367,6 +1377,25 @@
           "to": "in_progress"
         }
       ]
+    },
+    {
+      "timestamp": "2025-12-15T12:00:00Z",
+      "type": "architecture_design",
+      "description": "完成Git集成模块架构设计",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "architecture.modules.Git集成模块.artifacts",
+          "from": null,
+          "to": "3 architecture documents (系统架构总览、数据模型设计、集成设计)"
+        }
+      ],
+      "artifacts": [
+        "docs/architecture/iteration-1/Git集成模块-00-系统架构总览.md",
+        "docs/architecture/iteration-1/Git集成模块-数据模型设计.md",
+        "docs/architecture/iteration-1/Git集成模块-集成设计.md"
+      ],
+      "notes": "Git集成模块架构设计要点：AI驱动Commit生成、单分支策略、语义化版本、与状态管理/命令体系模块的集成"
     }
   ],
   "settings": {
@@ -1374,12 +1403,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "906127e",
-    "lastGitCommitMessage": "chore(state): 更新Git元数据",
-    "lastGitCommitAt": "2025-12-15T10:30:00Z",
-    "stateFileVersion": 32,
-    "totalStateChanges": 32,
-    "lastUpdatedAt": "2025-12-15T11:00:00Z",
+    "lastGitCommit": "5d0cd65",
+    "lastGitCommitMessage": "docs(state): 命令体系模块架构有条件通过，开始Git集成模块",
+    "lastGitCommitAt": "2025-12-15T11:00:00Z",
+    "stateFileVersion": 33,
+    "totalStateChanges": 33,
+    "lastUpdatedAt": "2025-12-15T12:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
