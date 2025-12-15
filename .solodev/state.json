@@ -875,9 +875,9 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "47ea538",
-    "lastGitCommitMessage": "feat(prd): 完善章节ID标注规范，根据评审反馈优化",
-    "lastGitCommitAt": "2025-12-15T02:00:00Z",
+    "lastGitCommit": "60e95d3",
+    "lastGitCommitMessage": "chore(state): 调整自举策略，优先实现最小验证工具",
+    "lastGitCommitAt": "2025-12-15T03:00:00Z",
     "stateFileVersion": 18,
     "totalStateChanges": 18,
     "lastUpdatedAt": "2025-12-15T03:00:00Z",
