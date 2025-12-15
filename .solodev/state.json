@@ -106,9 +106,11 @@
           {
             "id": "m2-1",
             "name": "命令体系模块架构设计",
-            "status": "in_progress",
+            "status": "completed",
             "startedAt": "2025-12-15T09:00:00Z",
+            "completedAt": "2025-12-15T11:00:00Z",
             "description": "完成命令体系模块架构设计（系统总览、数据模型、集成设计）",
+            "notes": "有条件通过：/init命令完整设计延后到项目完成后",
             "artifacts": [
               "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
               "docs/architecture/iteration-1/命令体系模块-数据模型设计.md",
@@ -118,7 +120,8 @@
           {
             "id": "m2-2",
             "name": "Git集成模块架构设计",
-            "status": "pending",
+            "status": "in_progress",
+            "startedAt": "2025-12-15T11:00:00Z",
             "description": "完成Git集成模块架构设计"
           },
           {
@@ -143,7 +146,7 @@
       }
     },
     "currentStage": "stage2_self_hosting",
-    "nextAction": "stage2进行中：命令体系模块架构设计已完成，待用户审批。审批通过后继续Git集成模块架构设计"
+    "nextAction": "stage2进行中：命令体系模块有条件通过（/init延后），正在进行Git集成模块架构设计"
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -249,9 +252,14 @@
               ]
             },
             "命令体系模块": {
-              "status": "in_progress",
+              "status": "approved",
               "priority": "P0",
               "startedAt": "2025-12-15T09:00:00Z",
+              "approvedAt": "2025-12-15T11:00:00Z",
+              "approvedBy": "human",
+              "approvalConditions": [
+                "/init命令完整设计延后：需等项目完成后明确要拷贝哪些脚本/模板到新项目"
+              ],
               "artifacts": [
                 "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
                 "docs/architecture/iteration-1/命令体系模块-数据模型设计.md",
@@ -279,15 +287,16 @@
               "priority": "P1"
             },
             "Git集成模块": {
-              "status": "pending",
-              "priority": "P0"
+              "status": "in_progress",
+              "priority": "P0",
+              "startedAt": "2025-12-15T11:00:00Z"
             }
           },
           "currentProcess": {
-            "currentModule": "命令体系模块",
-            "completedModules": ["核心流程模型", "状态管理模块", "文档模板模块"],
-            "remainingModules": ["Git集成模块", "影响分析模块", "测试验证模块"],
-            "nextAction": "命令体系模块架构设计已完成，待用户审批。审批通过后继续Git集成模块架构设计"
+            "currentModule": "Git集成模块",
+            "completedModules": ["核心流程模型", "状态管理模块", "文档模板模块", "命令体系模块"],
+            "remainingModules": ["影响分析模块", "测试验证模块"],
+            "nextAction": "进行Git集成模块架构设计"
           }
         },
         "implementation": {
@@ -1322,6 +1331,42 @@
         "docs/architecture/iteration-1/命令体系模块-数据模型设计.md"
       ],
       "rationale": "交互式获取项目信息比命令参数更友好，降低用户使用门槛"
+    },
+    {
+      "timestamp": "2025-12-15T11:00:00Z",
+      "type": "architecture_approved",
+      "description": "命令体系模块架构有条件通过，开始Git集成模块架构设计",
+      "changedBy": "ai",
+      "trigger": "用户审批命令体系模块架构设计",
+      "reviewResult": {
+        "conclusion": "有条件通过",
+        "conditions": [
+          "/init命令完整设计延后：需等项目完成后明确要拷贝哪些脚本/模板到新项目"
+        ],
+        "rationale": "自举过程中，/init需要的脚本和模板尚未开发，完整设计需延后"
+      },
+      "changes": [
+        {
+          "field": "architecture.modules.命令体系模块.status",
+          "from": "in_progress",
+          "to": "approved"
+        },
+        {
+          "field": "architecture.modules.Git集成模块.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "bootstrap.milestones.m2-1.status",
+          "from": "in_progress",
+          "to": "completed"
+        },
+        {
+          "field": "bootstrap.milestones.m2-2.status",
+          "from": "pending",
+          "to": "in_progress"
+        }
+      ]
     }
   ],
   "settings": {
@@ -1329,12 +1374,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "d8921c8",
-    "lastGitCommitMessage": "docs(prd+arch): 完善/init命令为交互式并更新迭代规划",
+    "lastGitCommit": "906127e",
+    "lastGitCommitMessage": "chore(state): 更新Git元数据",
     "lastGitCommitAt": "2025-12-15T10:30:00Z",
-    "stateFileVersion": 31,
-    "totalStateChanges": 31,
-    "lastUpdatedAt": "2025-12-15T10:30:00Z",
+    "stateFileVersion": 32,
+    "totalStateChanges": 32,
+    "lastUpdatedAt": "2025-12-15T11:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
