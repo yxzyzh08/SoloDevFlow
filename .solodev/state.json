@@ -148,7 +148,7 @@
       }
     },
     "currentStage": "stage2_self_hosting",
-    "nextAction": "Git集成模块简化为规范约定（无需架构）。准备进入Implementation阶段实现最小自举工具（命令体系模块）"
+    "nextAction": "核心流程模型和Git集成模块均简化为规范约定。继续评估影响分析模块和测试验证模块是否也是规范约定"
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -227,15 +227,9 @@
           "startedAt": "2025-12-14T11:00:00Z",
           "modules": {
             "核心流程模型": {
-              "status": "approved",
+              "status": "not_applicable",
               "priority": "P0",
-              "approvedAt": "2025-12-14T14:00:00Z",
-              "approvedBy": "human",
-              "artifacts": [
-                "docs/architecture/iteration-1/核心流程模型-00-系统架构总览.md",
-                "docs/architecture/iteration-1/核心流程模型-数据模型设计.md",
-                "docs/architecture/iteration-1/核心流程模型-集成设计.md"
-              ]
+              "notes": "核心流程模型是规范约定，不需要代码实现，无需架构设计。规范已整合到CLAUDE.md第六节。"
             },
             "状态管理模块": {
               "status": "approved",
@@ -296,9 +290,9 @@
           },
           "currentProcess": {
             "currentModule": null,
-            "completedModules": ["核心流程模型", "状态管理模块", "文档模板模块", "命令体系模块"],
+            "completedModules": ["状态管理模块", "文档模板模块", "命令体系模块"],
             "remainingModules": ["影响分析模块", "测试验证模块"],
-            "nextAction": "Git集成模块简化为规范约定（无需架构），准备进入Implementation阶段实现最小自举工具"
+            "nextAction": "核心流程模型和Git集成模块均简化为规范约定（无需架构），准备评估影响分析模块和测试验证模块是否也是规范"
           }
         },
         "implementation": {
@@ -1390,6 +1384,31 @@
       "notes": "Git集成模块架构设计要点：AI驱动Commit生成、单分支策略、语义化版本、与状态管理/命令体系模块的集成"
     },
     {
+      "timestamp": "2025-12-15T14:00:00Z",
+      "type": "architecture_simplification",
+      "description": "简化核心流程模型：从代码实现改为规范约定",
+      "changedBy": "ai",
+      "trigger": "用户深度评审：核心流程模型是AI工作规范，不是代码模块",
+      "changes": [
+        {
+          "field": "architecture.modules.核心流程模型.status",
+          "from": "approved",
+          "to": "not_applicable"
+        },
+        {
+          "field": "架构文档",
+          "from": "3个架构文档（系统总览、数据模型、集成设计）",
+          "to": "已删除（不需要代码架构）"
+        }
+      ],
+      "rationale": [
+        "核心流程模型是AI的工作规范，不是代码模块",
+        "五阶段流转、审批点、反馈循环、并行控制都是AI按规范执行",
+        "规范已整合到CLAUDE.md第六节'核心工作流程摘要'",
+        "与Git集成模块处理方式一致：规范约定，无需代码"
+      ]
+    },
+    {
       "timestamp": "2025-12-15T13:00:00Z",
       "type": "requirements_simplification",
       "description": "简化Git集成模块：从代码实现改为规范约定",
@@ -1428,9 +1447,9 @@
     "lastGitCommit": "a800fd7",
     "lastGitCommitMessage": "refactor(prd): 简化Git集成模块为规范约定",
     "lastGitCommitAt": "2025-12-15T13:00:00Z",
-    "stateFileVersion": 34,
-    "totalStateChanges": 34,
-    "lastUpdatedAt": "2025-12-15T13:00:00Z",
+    "stateFileVersion": 35,
+    "totalStateChanges": 35,
+    "lastUpdatedAt": "2025-12-15T14:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
