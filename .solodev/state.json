@@ -1209,9 +1209,9 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "24be61b",
-    "lastGitCommitMessage": "docs(templates): 添加章节ID规范到所有模板和文档",
-    "lastGitCommitAt": "2025-12-15T08:30:00Z",
+    "lastGitCommit": "839d189",
+    "lastGitCommitMessage": "docs(architecture): 完成命令体系模块架构设计",
+    "lastGitCommitAt": "2025-12-15T09:00:00Z",
     "stateFileVersion": 28,
     "totalStateChanges": 28,
     "lastUpdatedAt": "2025-12-15T09:00:00Z",
