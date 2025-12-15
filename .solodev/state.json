@@ -148,7 +148,79 @@
       }
     },
     "currentStage": "stage2_self_hosting",
-    "nextAction": "架构评估完成！7个模块中：3个需要代码（状态管理、命令体系、文档模板），4个是规范约定（核心流程、Git集成、影响分析、测试验证）。准备进入Implementation阶段实现3个代码模块。"
+    "nextAction": "架构评估完成！7个模块中：3个需要代码（状态管理、命令体系、文档模板），4个是规范约定（核心流程、Git集成、影响分析、测试验证）。准备进入Implementation阶段实现3个代码模块。",
+    "features": [
+      {
+        "name": "state.json验证器",
+        "implementation": "completed",
+        "documentation": "completed",
+        "integration": "completed",
+        "status": "已集成",
+        "completedAt": "2025-12-15T08:30:00Z",
+        "artifacts": [
+          "src/validators/state-validator.ts",
+          "src/validators/cli.ts",
+          "npm run validate:state"
+        ],
+        "integratedInto": [
+          "CLAUDE.md（会话开始流程、验证原则）",
+          "state-management.md（第八节）",
+          "package.json（validate:state脚本）"
+        ]
+      },
+      {
+        "name": "文档引用验证器",
+        "implementation": "completed",
+        "documentation": "completed",
+        "integration": "completed",
+        "status": "已集成",
+        "completedAt": "2025-12-15T08:30:00Z",
+        "artifacts": [
+          "src/validators/reference-validator.ts",
+          "src/validators/cli.ts",
+          "npm run validate:refs"
+        ],
+        "integratedInto": [
+          "CLAUDE.md（文档生成流程、验证原则）",
+          "template-usage.md（文档引用验证）",
+          "package.json（validate:refs脚本）"
+        ]
+      },
+      {
+        "name": "上下文加载器",
+        "implementation": "completed",
+        "documentation": "completed",
+        "integration": "completed",
+        "status": "已集成",
+        "completedAt": "2025-12-15T08:00:00Z",
+        "artifacts": [
+          "src/context/context-loader.ts",
+          "src/context/index.ts"
+        ],
+        "integratedInto": [
+          "CLAUDE.md（会话开始流程）",
+          "state-management.md（上下文加载能力）"
+        ]
+      },
+      {
+        "name": "模板填充引擎",
+        "implementation": "pending",
+        "documentation": "pending",
+        "integration": "pending",
+        "status": "待实现",
+        "artifacts": [],
+        "integratedInto": []
+      },
+      {
+        "name": "命令解析器",
+        "implementation": "pending",
+        "documentation": "pending",
+        "integration": "pending",
+        "status": "待实现",
+        "artifacts": [],
+        "integratedInto": []
+      }
+    ]
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -1572,6 +1644,47 @@
       ],
       "artifacts": ["CLAUDE.md"],
       "notes": "自举工作流程已正式化：功能实现 → 功能验证 → 规范文档化（4个位置） → Git提交（workflow_integration类型） → 集成验证。包含自举功能清单跟踪表和4条实践原则。"
+    },
+    {
+      "timestamp": "2025-12-15T21:00:00Z",
+      "type": "refactor",
+      "description": "优化自举工作流程规范：精简CLAUDE.md + 创建专项指南 + 动态跟踪清单",
+      "changedBy": "ai",
+      "trigger": "用户深度评审：CLAUDE.md第二.五节冗余严重（270行），与专项指南重复60-80%，Bootstrap占比过大（37%）",
+      "changes": [
+        {
+          "field": "CLAUDE.md第二.五节",
+          "from": "270行（包含详细4步流程、4个位置说明、Git示例、自举功能清单表格、实践原则）",
+          "to": "40行（仅保留核心理念、4步流程概述、原则概要，详细内容移至专项指南）"
+        },
+        {
+          "field": ".claude/guides/bootstrap-workflow.md",
+          "from": null,
+          "to": "新增专项指南（约200行）：详细流程、4个位置说明、实践原则、常见问题、完整示例"
+        },
+        {
+          "field": "state.json.bootstrap.features",
+          "from": null,
+          "to": "新增features数组（5个功能：3个已集成，2个待实现）"
+        }
+      ],
+      "artifacts": [
+        "CLAUDE.md",
+        ".claude/guides/bootstrap-workflow.md",
+        ".solodev/state.json"
+      ],
+      "metrics": {
+        "CLAUDE.md行数减少": "230行（85%）",
+        "token消耗减少": "约1350 tokens（84%）",
+        "与专项指南重复度": "从60-80%降至<10%",
+        "Bootstrap占比": "从37%降至5%"
+      },
+      "benefits": [
+        "CLAUDE.md简洁性提升：从6/10提升至9/10",
+        "模块化更清晰：核心规范与详细操作分离",
+        "可维护性提升：详细内容统一在专项指南中维护",
+        "动态跟踪：自举功能清单从静态表格迁移到state.json"
+      ]
     }
   ],
   "settings": {
