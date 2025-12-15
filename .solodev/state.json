@@ -1249,9 +1249,9 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "839d189",
-    "lastGitCommitMessage": "docs(architecture): 完成命令体系模块架构设计",
-    "lastGitCommitAt": "2025-12-15T09:00:00Z",
+    "lastGitCommit": "a44a69e",
+    "lastGitCommitMessage": "docs(prd): 移除断点恢复机制需求，保留会话恢复能力",
+    "lastGitCommitAt": "2025-12-15T09:30:00Z",
     "stateFileVersion": 29,
     "totalStateChanges": 29,
     "lastUpdatedAt": "2025-12-15T09:30:00Z",
