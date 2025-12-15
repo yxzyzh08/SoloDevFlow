@@ -53,13 +53,16 @@
           {
             "id": "m1-1",
             "name": "状态管理模块架构审批",
-            "status": "pending",
-            "description": "完成状态管理模块架构设计审批"
+            "status": "completed",
+            "completedAt": "2025-12-15T04:00:00Z",
+            "description": "完成状态管理模块架构设计审批",
+            "notes": "有条件通过，待补充项记录在globalTasks(task-003, task-004)"
           },
           {
             "id": "m1-2",
             "name": "文档模板模块架构设计",
-            "status": "pending",
+            "status": "in_progress",
+            "startedAt": "2025-12-15T04:00:00Z",
             "description": "完成文档模板模块架构设计（重点：4.4文档引用验证）"
           },
           {
@@ -186,9 +189,15 @@
               ]
             },
             "状态管理模块": {
-              "status": "in_progress",
+              "status": "approved",
               "priority": "P0",
               "startedAt": "2025-12-14T16:00:00Z",
+              "approvedAt": "2025-12-15T04:00:00Z",
+              "approvedBy": "human",
+              "approvalConditions": [
+                "m1-3之前：补充修复建议到StateFileCorruptedError",
+                "m1-5之前：添加getContextForPhase/getContextForModule到StateManager"
+              ],
               "artifacts": [
                 "docs/architecture/iteration-1/状态管理模块-00-系统架构总览.md",
                 "docs/architecture/iteration-1/状态管理模块-数据模型设计.md",
@@ -200,8 +209,9 @@
               "priority": "P0"
             },
             "文档模板模块": {
-              "status": "pending",
-              "priority": "P0"
+              "status": "in_progress",
+              "priority": "P0",
+              "startedAt": "2025-12-15T04:00:00Z"
             },
             "影响分析模块": {
               "status": "pending",
@@ -217,10 +227,10 @@
             }
           },
           "currentProcess": {
-            "currentModule": "状态管理模块",
-            "completedModules": ["核心流程模型"],
-            "remainingModules": ["状态管理模块", "命令体系模块", "文档模板模块", "影响分析模块", "测试验证模块", "Git集成模块"],
-            "nextAction": "设计状态管理模块架构（依赖核心流程模型，已完成）"
+            "currentModule": "文档模板模块",
+            "completedModules": ["核心流程模型", "状态管理模块"],
+            "remainingModules": ["文档模板模块", "命令体系模块", "影响分析模块", "测试验证模块", "Git集成模块"],
+            "nextAction": "设计文档模板模块架构（重点：4.4文档引用验证，这是stage1必需功能）"
           }
         },
         "implementation": {
@@ -400,7 +410,30 @@
     }
   },
   "globalTasks": {
-    "pending": [],
+    "pending": [
+      {
+        "id": "task-003",
+        "title": "补充修复建议到StateFileCorruptedError",
+        "description": "状态管理模块架构评审条件：在StateFileCorruptedError类中添加suggestions字段，提供JSON验证工具链接和Git恢复命令",
+        "priority": "P1",
+        "createdAt": "2025-12-15T04:00:00Z",
+        "deadline": "m1-3（state.json验证器实现之前）",
+        "relatedPhase": "architecture",
+        "affectedModules": ["状态管理模块"],
+        "source": "架构评审报告temp_report_3.md"
+      },
+      {
+        "id": "task-004",
+        "title": "添加上下文加载接口到StateManager",
+        "description": "状态管理模块架构评审条件：在StateManager类中暴露getContextForPhase和getContextForModule接口（PRD 3.5）",
+        "priority": "P2",
+        "createdAt": "2025-12-15T04:00:00Z",
+        "deadline": "m1-5（现有文档全量验证之前）",
+        "relatedPhase": "architecture",
+        "affectedModules": ["状态管理模块"],
+        "source": "架构评审报告temp_report_3.md"
+      }
+    ],
     "completed": [
       {
         "id": "task-001",
@@ -868,6 +901,51 @@
         "m1-4: 文档引用验证器实现",
         "m1-5: 现有文档全量验证"
       ]
+    },
+    {
+      "timestamp": "2025-12-15T04:00:00Z",
+      "type": "architecture_approved",
+      "description": "状态管理模块架构有条件通过审批（m1-1完成），开始文档模板模块架构设计（m1-2）",
+      "changedBy": "ai",
+      "trigger": "用户提交架构评审报告temp_report_3.md，基于自举阶段定义进行优先级评审",
+      "reviewResult": {
+        "score": "85/100",
+        "conclusion": "有条件通过",
+        "conditions": [
+          "task-003: m1-3之前补充修复建议到StateFileCorruptedError",
+          "task-004: m1-5之前添加getContextForPhase/getContextForModule到StateManager"
+        ]
+      },
+      "changes": [
+        {
+          "field": "architecture.modules.状态管理模块.status",
+          "from": "in_progress",
+          "to": "approved"
+        },
+        {
+          "field": "architecture.modules.文档模板模块.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "bootstrap.milestones.m1-1.status",
+          "from": "pending",
+          "to": "completed"
+        },
+        {
+          "field": "bootstrap.milestones.m1-2.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "globalTasks.pending",
+          "from": "0 tasks",
+          "to": "2 tasks (task-003, task-004)"
+        }
+      ],
+      "artifacts": [
+        "temp_report_3.md（评审报告）"
+      ]
     }
   ],
   "settings": {
@@ -875,12 +953,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "60e95d3",
-    "lastGitCommitMessage": "chore(state): 调整自举策略，优先实现最小验证工具",
+    "lastGitCommit": "b8984d7",
+    "lastGitCommitMessage": "chore(state): 记录Git metadata更新",
     "lastGitCommitAt": "2025-12-15T03:00:00Z",
-    "stateFileVersion": 18,
-    "totalStateChanges": 18,
-    "lastUpdatedAt": "2025-12-15T03:00:00Z",
+    "stateFileVersion": 19,
+    "totalStateChanges": 19,
+    "lastUpdatedAt": "2025-12-15T04:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
