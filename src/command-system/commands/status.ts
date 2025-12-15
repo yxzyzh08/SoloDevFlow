@@ -32,8 +32,8 @@ export const statusCommand: CommandDefinition = {
 
       // 构建状态报告
       const report = {
-        projectName: state.metadata.projectName,
-        version: state.metadata.version,
+        projectName: state.project?.name || '未设置',
+        version: iteration.version || '未设置',
         currentIteration: state.currentIteration,
         currentPhase: iteration.currentPhase,
         phaseStatus: phaseState.status,

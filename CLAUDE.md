@@ -237,14 +237,24 @@ Read file_path=".claude/guides/code-standards.md"
 1. 验证 state.json 格式（npm run validate:state）
    - 格式错误 → 显示修复建议，等待用户修复
    - 验证通过 → 继续
-2. 读取 .solodev/state.json
-3. 分析当前阶段（currentPhase）和当前进度
-4. （可选）使用命令快速查看状态：npm run solodev status
+
+2. 获取项目状态概览（npm run solodev status）【必须】
    - 显示项目状态、当前阶段、模块进度
    - 获取下一步建议
-5. 加载对应阶段的专项指南（见 5.2 节）
-6. 主动提示用户上次进度和建议的下一步行动
+   - 注意：不要直接读取 state.json，会消耗大量 token（25000+）
+
+3. （如需详细信息）使用上下文加载器按需加载：
+   - 阶段级：npm run context:phase <阶段名>
+   - 模块级：npm run context:module <模块名> <阶段名>
+   - 返回应该读取的文件列表和 state.json 字段
+
+4. 加载对应阶段的专项指南（见 5.2 节）
+
+5. 主动提示用户上次进度和建议的下一步行动
 ```
+
+**重要**：禁止在会话开始时直接读取整个 state.json 文件（25000+ tokens），
+应使用 status 命令（~500 tokens）获取概览，效率提升 50 倍。
 
 ### 命令使用流程
 
