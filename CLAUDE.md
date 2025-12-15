@@ -246,6 +246,45 @@ Read file_path=".claude/guides/code-standards.md"
 6. 主动提示用户上次进度和建议的下一步行动
 ```
 
+### 命令使用流程
+
+所有命令通过 `npm run solodev <命令>` 执行：
+
+```
+【项目初始化】
+/init <项目名> [--description <描述>]
+- 使用时机：新项目开始时
+- 功能：创建初始state.json，设置项目信息和第一个迭代
+- 前置条件：state.json不存在
+
+【阶段开始】
+/start-requirements      - 开始需求阶段
+/start-architecture      - 开始架构阶段（需求已审批）
+/start-implementation    - 开始实现阶段（架构已审批）
+/start-testing          - 开始测试阶段（实现已审批）
+/start-deployment       - 开始部署阶段（测试已审批）
+- 功能：更新currentPhase，设置阶段状态为in_progress
+- 前置条件：上一阶段已审批
+
+【审批操作】
+/approve                 - 审批当前阶段
+/approve <阶段名>         - 审批指定阶段
+/approve <模块名>         - 审批指定模块
+- 使用时机：阶段或模块完成后
+- 功能：更新状态为approved，记录审批时间
+
+【回滚操作】
+/rollback <目标阶段> <原因>
+- 使用时机：发现问题需要返回之前阶段
+- 功能：重置目标阶段及之后所有阶段状态
+- 示例：/rollback requirements "发现需求遗漏"
+
+【状态查询】
+/status
+- 使用时机：任何时候快速查看项目状态
+- 功能：显示项目概览、当前阶段、模块进度、下一步建议
+```
+
 ### 状态更新流程
 
 ```

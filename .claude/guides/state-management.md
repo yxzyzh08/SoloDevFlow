@@ -357,6 +357,108 @@ npm run solodev status
 - ✅ 需要详细分析时再读取state.json
 - ✅ 命令和直接读取相互补充，不是替代关系
 
+### 所有可用命令
+
+#### 1. 项目初始化
+
+```bash
+npm run solodev init <项目名> [--description <描述>]
+```
+
+**功能**：创建初始state.json文件
+**前置条件**：state.json不存在
+**使用时机**：新项目开始时
+
+#### 2. 阶段开始命令
+
+```bash
+npm run solodev start-requirements      # 开始需求阶段
+npm run solodev start-architecture      # 开始架构阶段
+npm run solodev start-implementation    # 开始实现阶段
+npm run solodev start-testing          # 开始测试阶段
+npm run solodev start-deployment       # 开始部署阶段
+```
+
+**功能**：更新currentPhase，设置阶段状态为in_progress
+**前置条件**：上一阶段已审批（除requirements外）
+**使用时机**：上一阶段审批通过后
+
+#### 3. 审批命令
+
+```bash
+npm run solodev approve                 # 审批当前阶段
+npm run solodev approve <阶段名>         # 审批指定阶段
+npm run solodev approve <模块名>         # 审批指定模块
+```
+
+**功能**：更新状态为approved，记录审批时间和审批人
+**使用时机**：
+- 阶段完成后审批整个阶段
+- 模块完成后审批单个模块
+
+#### 4. 回滚命令
+
+```bash
+npm run solodev rollback <目标阶段> <原因>
+```
+
+**示例**：
+```bash
+npm run solodev rollback requirements "发现需求遗漏"
+npm run solodev rollback architecture "架构设计存在问题"
+```
+
+**功能**：重置目标阶段及之后所有阶段状态
+**前置条件**：目标阶段必须在当前阶段之前
+**使用时机**：发现问题需要返回之前阶段修复
+
+### 命令使用流程示例
+
+**完整项目流程**：
+```bash
+# 1. 初始化项目
+npm run solodev init "我的项目" --description "项目描述"
+
+# 2. 开始需求阶段
+npm run solodev start-requirements
+# ... 编写PRD文档 ...
+npm run solodev approve requirements
+
+# 3. 开始架构阶段
+npm run solodev start-architecture
+# ... 编写架构文档 ...
+npm run solodev approve architecture
+
+# 4. 开始实现阶段
+npm run solodev start-implementation
+# ... 实现模块 ...
+npm run solodev approve 状态管理模块
+npm run solodev approve 命令体系模块
+npm run solodev approve implementation
+
+# 5. 开始测试阶段
+npm run solodev start-testing
+# ... 执行测试 ...
+npm run solodev approve testing
+
+# 6. 开始部署阶段
+npm run solodev start-deployment
+# ... 执行部署 ...
+npm run solodev approve deployment
+
+# 7. 随时查看状态
+npm run solodev status
+```
+
+**回滚场景**：
+```bash
+# 发现问题需要回滚
+npm run solodev rollback requirements "用户故事不完整"
+# ... 修复问题 ...
+npm run solodev approve requirements
+# ... 继续后续阶段 ...
+```
+
 ---
 
 ## 九、实践原则总结
