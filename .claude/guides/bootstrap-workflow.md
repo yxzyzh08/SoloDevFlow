@@ -94,14 +94,13 @@ npm run validate:state
 
 **何时更新**：功能影响核心工作流程时
 
-**更新位置**：CLAUDE.md 第六节"核心工作流程摘要"
+**更新位置**：CLAUDE.md 第二节"工作流全景"或第三节"五阶段详细规则"
 
 **示例**：
 ```markdown
-### 会话开始流程
-1. 验证 state.json 格式（npm run validate:state） ← 新增
-2. 读取 .solodev/state.json
-3. 分析当前阶段和进度
+### 会话启动（必做）
+- 验证 state.json 格式（npm run validate:state） ← 新增
+- 执行 /session-start
 ...
 ```
 
@@ -122,17 +121,17 @@ npm run validate:state
 | Git相关 | git-integration.md |
 | 自举流程相关 | bootstrap-workflow.md |
 
-### 位置3：CLAUDE.md 关键原则总结
+### 位置3：CLAUDE.md 核心原则速查
 
 **何时更新**：功能引入新的工作原则时
 
-**更新位置**：CLAUDE.md 第七节"关键原则总结"
+**更新位置**：CLAUDE.md 第七节"核心原则速查"
 
 **示例**：
 ```markdown
-### 验证原则
-- ✅ 会话开始时验证 state.json 格式
-- ✅ 文档生成后验证引用关系
+### 状态管理
+- ✅ 会话开始验证 state.json
+- ✅ 完成模块立即更新 + commit
 ```
 
 ### 位置4：package.json scripts（如适用）
@@ -318,7 +317,7 @@ npm run validate:state
 #### 步骤2：规范文档化
 
 **更新的4个位置**：
-1. CLAUDE.md：第六节"会话开始流程"新增验证步骤、第七节新增"验证原则"
+1. CLAUDE.md：第二节"会话启动"新增验证步骤、第七节"核心原则速查"新增条目
 2. state-management.md：新增第八节"状态验证"
 3. package.json：新增 `validate:state` 脚本
 4. state.json：更新changeHistory和bootstrap.features
@@ -331,7 +330,7 @@ git commit -m "$(cat <<'EOF'
 chore(bootstrap): 集成state.json验证器到工作流程
 
 更新内容：
-- CLAUDE.md：会话开始流程新增验证步骤、关键原则新增验证原则
+- CLAUDE.md：会话启动新增验证步骤、核心原则速查新增条目
 - state-management.md：新增第八节"状态验证"
 - package.json：新增npm run validate:state命令
 
@@ -375,6 +374,6 @@ EOF
 ---
 
 **相关文档**：
-- CLAUDE.md：第二.五节"自举阶段特殊规范"
+- CLAUDE.md：第八节"自举阶段（Bootstrap）"
 - state.json：`bootstrap.features` 字段
 - git-integration.md：Git提交规范详细说明
