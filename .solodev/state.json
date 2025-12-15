@@ -213,12 +213,26 @@
       },
       {
         "name": "命令解析器",
-        "implementation": "pending",
-        "documentation": "pending",
-        "integration": "pending",
-        "status": "待实现",
-        "artifacts": [],
-        "integratedInto": []
+        "implementation": "completed",
+        "documentation": "completed",
+        "integration": "completed",
+        "status": "已集成",
+        "completedAt": "2025-12-15T22:00:00Z",
+        "artifacts": [
+          "src/command-system/types.ts",
+          "src/command-system/parser.ts",
+          "src/command-system/precondition-checker.ts",
+          "src/command-system/registry.ts",
+          "src/command-system/executor.ts",
+          "src/command-system/cli.ts",
+          "src/command-system/commands/*.ts",
+          "npm run solodev"
+        ],
+        "integratedInto": [
+          "CLAUDE.md（命令使用流程）",
+          "state-management.md（第八节：命令行使用）",
+          "package.json（bin和solodev脚本）"
+        ]
       }
     ]
   },
@@ -402,15 +416,38 @@
               "remainingWork": ["模板填充功能", "变量替换"]
             },
             "命令体系模块": {
-              "status": "pending",
+              "status": "completed",
               "priority": "P0",
-              "notes": "待实现：命令解析、前置条件检查、执行控制"
+              "startedAt": "2025-12-15T18:00:00Z",
+              "completedAt": "2025-12-15T22:00:00Z",
+              "notes": "完整实现命令体系：类型定义、命令解析器、前置条件检查器、命令注册表、命令执行器、CLI入口、9个命令实现、StateManager方法补充",
+              "artifacts": [
+                "src/command-system/types.ts",
+                "src/command-system/parser.ts",
+                "src/command-system/precondition-checker.ts",
+                "src/command-system/registry.ts",
+                "src/command-system/executor.ts",
+                "src/command-system/cli.ts",
+                "src/command-system/commands/init.ts",
+                "src/command-system/commands/start-requirements.ts",
+                "src/command-system/commands/start-architecture.ts",
+                "src/command-system/commands/start-implementation.ts",
+                "src/command-system/commands/start-testing.ts",
+                "src/command-system/commands/start-deployment.ts",
+                "src/command-system/commands/approve.ts",
+                "src/command-system/commands/rollback.ts",
+                "src/command-system/commands/status.ts",
+                "src/command-system/commands/index.ts",
+                "src/command-system/index.ts",
+                "src/state-management/services/state-service.ts",
+                "src/state-management/api/state-manager.ts"
+              ]
             }
           },
           "currentProcess": {
             "currentModule": "文档模板模块",
-            "completedModules": ["状态管理模块"],
-            "remainingModules": ["文档模板模块", "命令体系模块"],
+            "completedModules": ["状态管理模块", "命令体系模块"],
+            "remainingModules": ["文档模板模块"],
             "nextAction": "继续实现文档模板模块（模板填充功能、变量替换）"
           }
         },
@@ -1685,6 +1722,54 @@
         "可维护性提升：详细内容统一在专项指南中维护",
         "动态跟踪：自举功能清单从静态表格迁移到state.json"
       ]
+    },
+    {
+      "timestamp": "2025-12-15T22:00:00Z",
+      "type": "implementation_completed",
+      "description": "完成命令体系模块实现并完成规范文档化",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "implementation.modules.命令体系模块.status",
+          "from": "pending",
+          "to": "completed"
+        },
+        {
+          "field": "implementation.currentProcess.completedModules",
+          "from": "[\"状态管理模块\"]",
+          "to": "[\"状态管理模块\", \"命令体系模块\"]"
+        },
+        {
+          "field": "bootstrap.features.命令解析器",
+          "from": "待实现",
+          "to": "已集成"
+        },
+        {
+          "field": "CLAUDE.md",
+          "from": "无命令使用流程说明",
+          "to": "新增'命令使用流程'节（9个命令完整说明）"
+        },
+        {
+          "field": "state-management.md",
+          "from": "仅包含/status命令说明",
+          "to": "第八节扩展为完整命令行使用指南（4大类命令 + 使用流程示例）"
+        }
+      ],
+      "artifacts": [
+        "src/command-system/types.ts",
+        "src/command-system/parser.ts",
+        "src/command-system/precondition-checker.ts",
+        "src/command-system/registry.ts",
+        "src/command-system/executor.ts",
+        "src/command-system/cli.ts",
+        "src/command-system/commands/[9个命令文件]",
+        "src/state-management/services/state-service.ts（新增initialize/startPhase/rollbackToPhase）",
+        "src/state-management/api/state-manager.ts（新增相同3个方法）",
+        "CLAUDE.md（命令使用流程）",
+        ".claude/guides/state-management.md（第八节完整命令说明）",
+        "package.json（bin和solodev脚本）"
+      ],
+      "notes": "完整实现Command-as-Configuration模式的命令体系，9个命令全部实现并通过规范文档化。StateManager补充initialize、startPhase、rollbackToPhase三个方法以支持命令执行。规范文档化完成后，命令体系正式可用于后续开发。"
     }
   ],
   "settings": {
@@ -1695,9 +1780,9 @@
     "lastGitCommit": "69acedf",
     "lastGitCommitMessage": "refactor(bootstrap): 优化自举工作流程规范结构",
     "lastGitCommitAt": "2025-12-15T21:00:00Z",
-    "stateFileVersion": 45,
-    "totalStateChanges": 45,
-    "lastUpdatedAt": "2025-12-15T21:00:00Z",
+    "stateFileVersion": 46,
+    "totalStateChanges": 46,
+    "lastUpdatedAt": "2025-12-15T22:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
