@@ -68,7 +68,7 @@
 
 | 痛点          | 描述           | 影响           | 解决方案       |
 | ------------- | -------------- | -------------- | -------------- |
-| **P1: 工作流不清晰** | 传统AI对话没有明确的阶段划分 | 容易跳过关键步骤，质量无保障 | 设计7个核心命令对应5个阶段+2个辅助 |
+| **P1: 工作流不清晰** | 传统AI对话没有明确的阶段划分 | 容易跳过关键步骤，质量无保障 | 设计9个核心命令（1个初始化+5个阶段+2个审批+1个自定义） |
 | **P2: 无法暂停审批** | AI执行过程无法在关键点暂停 | 错误决策无法及时纠正 | 5大审批点机制（需求、架构、测试计划等） |
 | **P3: 命令记忆负担** | 命令过多或过细导致难以记忆 | 降低使用效率 | 粗粒度命令设计（一个阶段一条命令） |
 
@@ -100,7 +100,7 @@ Git自动提交（如适用）
 
 | 模块名        | 职责               | 实现方式           |
 | ------------- | ------------------ | ------------------ |
-| **命令定义模块**   | 定义7个核心命令的名称、参数、描述 | `.claude/commands/*.md` 文件 |
+| **命令定义模块**   | 定义9个核心命令的名称、参数、描述 | `.claude/commands/*.md` 文件 |
 | **命令解析模块**   | 解析用户输入，验证参数合法性 | Claude AI读取命令文件并解析 |
 | **状态检查模块**   | 检查当前项目状态，判断是否可执行命令 | 读取 `state.json` |
 | **审批点控制模块** | 在关键节点暂停，等待人工审批 | 生成审批文档，等待用户确认 |
@@ -115,6 +115,7 @@ Git自动提交（如适用）
 
 | 命令                      | 描述                           | 详细设计文档                          |
 | ------------------------- | ------------------------------ | ------------------------------------- |
+| `/init`                   | 初始化新项目                   | docs/architecture/iteration-1/02-命令设计.md |
 | `/start-requirements`     | 启动需求分析阶段               | docs/architecture/iteration-1/02-命令设计.md |
 | `/approve-requirements`   | 审批需求文档                   | docs/architecture/iteration-1/02-命令设计.md |
 | `/start-architecture`     | 启动架构设计阶段               | docs/architecture/iteration-1/02-命令设计.md |
@@ -123,6 +124,10 @@ Git自动提交（如适用）
 | `/start-testing`          | 启动测试阶段                   | docs/architecture/iteration-1/02-命令设计.md |
 | `/start-deployment`       | 启动部署阶段                   | docs/architecture/iteration-1/02-命令设计.md |
 | `/custom-task`            | 创建自定义任务（逃逸机制）     | docs/architecture/iteration-1/02-命令设计.md |
+
+**命令说明**：
+- `/init`：新项目首次使用时执行，初始化项目结构（.solodev/、state.json、基础模板）
+- 其他命令：项目初始化完成后使用
 
 **完整命令清单详见**：docs/architecture/iteration-1/02-命令设计.md
 
@@ -282,6 +287,26 @@ AI基于精确上下文执行任务
 ### 5.1 用户故事清单
 
 #### 用户视角（面向最终用户）
+
+**故事 0：初始化新项目**
+```
+作为独立开发者，我想通过一条命令初始化新项目，以便快速搭建符合SoloDevFlow规范的项目结构。
+
+验收标准：
+  - [ ] 输入 /init 命令后，AI检查当前目录是否已初始化
+  - [ ] 如已初始化（.solodev/state.json存在），AI提示："项目已初始化，无需重复执行"
+  - [ ] 如未初始化，AI创建项目结构：
+    - .solodev/ 目录
+    - .solodev/state.json（初始状态文件）
+    - .solodev/templates/（文档模板目录，可选）
+  - [ ] AI初始化state.json内容：
+    - project.name = 用户输入的项目名称
+    - project.type = 用户选择的项目类型（backend/frontend/fullstack）
+    - currentIteration = "iteration-1"
+    - iterations["iteration-1"].status = "in_progress"
+    - iterations["iteration-1"].currentPhase = null（待执行/start-requirements）
+  - [ ] AI提示下一步行动："项目初始化完成，请执行 /start-requirements 启动需求分析"
+```
 
 **故事 1：启动需求分析**
 ```

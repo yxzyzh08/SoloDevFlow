@@ -1242,6 +1242,51 @@
         "retained": "会话恢复能力（每次新会话读取state.json，了解当前进度继续工作）",
         "reason": "会话中断时（终端关闭、网络断开、超时）无法捕获中断事件，无法可靠保存状态"
       }
+    },
+    {
+      "timestamp": "2025-12-15T10:00:00Z",
+      "type": "requirements_supplement",
+      "description": "根据架构评审补充/init命令和P2问题修复",
+      "changedBy": "ai",
+      "trigger": "架构评审报告temp_report_5.md指出：(1)P1问题-/init命令缺失 (2)P2问题-需补充--help参数处理和/custom-task状态保护",
+      "userDecision": "同意采用'补充而非回滚'策略，在当前阶段直接补充PRD和架构设计",
+      "changes": [
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md 4.1节",
+          "from": "8个命令（不含/init）",
+          "to": "9个命令（新增/init初始化命令）"
+        },
+        {
+          "field": "docs/PRD/modules/命令体系模块-PRD.md 五、用户故事",
+          "from": "故事1-11",
+          "to": "新增故事0：初始化新项目"
+        },
+        {
+          "field": "docs/architecture/iteration-1/命令体系模块-数据模型设计.md",
+          "from": "8个命令定义",
+          "to": "9个命令定义（新增init，含state_not_exists前置条件和creates状态效果）"
+        },
+        {
+          "field": "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
+          "from": "无--help处理",
+          "to": "CommandParser.parse()支持--help参数，返回HelpRequest"
+        },
+        {
+          "field": "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
+          "from": "无状态保护机制",
+          "to": "新增StateProtector类，确保/custom-task不修改状态"
+        }
+      ],
+      "artifacts": [
+        "docs/PRD/modules/命令体系模块-PRD.md",
+        "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
+        "docs/architecture/iteration-1/命令体系模块-数据模型设计.md"
+      ],
+      "reviewFeedback": {
+        "P1_init_command": "新增/init命令，用于初始化新项目（非自举项目使用）",
+        "P2_help_parameter": "补充--help/-h参数处理设计（HelpRequest接口、getHelp方法）",
+        "P2_state_protection": "补充StateProtector状态保护机制（快照+验证+回滚）"
+      }
     }
   ],
   "settings": {
@@ -1252,9 +1297,9 @@
     "lastGitCommit": "a44a69e",
     "lastGitCommitMessage": "docs(prd): 移除断点恢复机制需求，保留会话恢复能力",
     "lastGitCommitAt": "2025-12-15T09:30:00Z",
-    "stateFileVersion": 29,
-    "totalStateChanges": 29,
-    "lastUpdatedAt": "2025-12-15T09:30:00Z",
+    "stateFileVersion": 30,
+    "totalStateChanges": 30,
+    "lastUpdatedAt": "2025-12-15T10:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
