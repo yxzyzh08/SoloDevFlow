@@ -148,7 +148,7 @@
       }
     },
     "currentStage": "stage2_self_hosting",
-    "nextAction": "核心流程模型和Git集成模块均简化为规范约定。继续评估影响分析模块和测试验证模块是否也是规范约定"
+    "nextAction": "核心流程模型、Git集成模块、影响分析模块均简化为规范约定。继续评估测试验证模块是否也是规范约定"
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -275,8 +275,9 @@
               ]
             },
             "影响分析模块": {
-              "status": "pending",
-              "priority": "P1"
+              "status": "not_applicable",
+              "priority": "P1",
+              "notes": "影响分析模块是规范约定，不需要代码实现，无需架构设计。AI直接读取JSON+调用grep+AI推理。"
             },
             "测试验证模块": {
               "status": "pending",
@@ -291,8 +292,8 @@
           "currentProcess": {
             "currentModule": null,
             "completedModules": ["状态管理模块", "文档模板模块", "命令体系模块"],
-            "remainingModules": ["影响分析模块", "测试验证模块"],
-            "nextAction": "核心流程模型和Git集成模块均简化为规范约定（无需架构），准备评估影响分析模块和测试验证模块是否也是规范"
+            "remainingModules": ["测试验证模块"],
+            "nextAction": "影响分析模块简化为规范约定（无需架构），继续评估测试验证模块是否也是规范"
           }
         },
         "implementation": {
@@ -1384,6 +1385,28 @@
       "notes": "Git集成模块架构设计要点：AI驱动Commit生成、单分支策略、语义化版本、与状态管理/命令体系模块的集成"
     },
     {
+      "timestamp": "2025-12-15T15:00:00Z",
+      "type": "architecture_simplification",
+      "description": "简化影响分析模块：从代码实现改为规范约定",
+      "changedBy": "ai",
+      "trigger": "用户深度评审：影响分析模块是AI工作规范，不需要代码实现",
+      "changes": [
+        {
+          "field": "architecture.modules.影响分析模块.status",
+          "from": "pending",
+          "to": "not_applicable"
+        }
+      ],
+      "rationale": [
+        "模块级影响分析：AI手动遍历moduleDependencies（模块数量<20个）",
+        "代码级影响分析：AI直接调用grep搜索@integration标注",
+        "根因分析：AI核心能力（分层推理）",
+        "任务链生成：AI按规范生成修复任务",
+        "历史数据访问：AI语义理解关键词",
+        "所有功能都是AI原生能力，不需要代码封装"
+      ]
+    },
+    {
       "timestamp": "2025-12-15T14:00:00Z",
       "type": "architecture_simplification",
       "description": "简化核心流程模型：从代码实现改为规范约定",
@@ -1447,9 +1470,9 @@
     "lastGitCommit": "c99a8e5",
     "lastGitCommitMessage": "refactor(architecture): 简化核心流程模型为规范约定",
     "lastGitCommitAt": "2025-12-15T14:00:00Z",
-    "stateFileVersion": 36,
-    "totalStateChanges": 36,
-    "lastUpdatedAt": "2025-12-15T14:00:00Z",
+    "stateFileVersion": 37,
+    "totalStateChanges": 37,
+    "lastUpdatedAt": "2025-12-15T15:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
