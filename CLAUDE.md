@@ -233,67 +233,58 @@ Read file_path=".claude/guides/code-standards.md"
 
 ### 会话开始流程
 
-```
-1. 验证 state.json 格式（npm run validate:state）
-   - 格式错误 → 显示修复建议，等待用户修复
-   - 验证通过 → 继续
-
-2. 获取项目状态概览（npm run solodev status）【必须】
-   - 显示项目状态、当前阶段、模块进度
-   - 获取下一步建议
-   - 注意：不要直接读取 state.json，会消耗大量 token（25000+）
-
-3. （如需详细信息）使用上下文加载器按需加载：
-   - 阶段级：npm run context:phase <阶段名>
-   - 模块级：npm run context:module <模块名> <阶段名>
-   - 返回应该读取的文件列表和 state.json 字段
-
-4. 加载对应阶段的专项指南（见 5.2 节）
-
-5. 主动提示用户上次进度和建议的下一步行动
-```
-
-**重要**：禁止在会话开始时直接读取整个 state.json 文件（25000+ tokens），
-应使用 status 命令（~500 tokens）获取概览，效率提升 50 倍。
-
-### 命令使用流程
-
-所有命令通过 `npm run solodev <命令>` 执行：
+**每次会话开始时，必须首先执行：**
 
 ```
-【项目初始化】
-/init <项目名> [--description <描述>]
-- 使用时机：新项目开始时
-- 功能：创建初始state.json，设置项目信息和第一个迭代
-- 前置条件：state.json不存在
+/session-start
+```
 
-【阶段开始】
+该命令会自动：
+1. 验证 state.json 格式
+2. 获取项目状态概览
+3. 提供AI工作指令（上下文加载、专项指南、下一步建议）
+
+**重要约束**：
+- 禁止直接读取整个 state.json 文件（25000+ tokens）
+- 使用 `/status` 命令获取概览（~500 tokens），效率提升 50 倍
+- 所有操作通过 Slash Command 执行
+
+### Slash Command 体系
+
+本项目使用 Claude Code 的 Slash Command 机制实现严格的工作流控制。
+命令定义位于 `.claude/commands/` 目录。
+
+```
+【会话管理】
+/session-start           - 【必须】每次会话开始时执行
+/status                  - 查看项目当前状态
+
+【阶段控制】
 /start-requirements      - 开始需求阶段
 /start-architecture      - 开始架构阶段（需求已审批）
 /start-implementation    - 开始实现阶段（架构已审批）
-/start-testing          - 开始测试阶段（实现已审批）
-/start-deployment       - 开始部署阶段（测试已审批）
-- 功能：更新currentPhase，设置阶段状态为in_progress
-- 前置条件：上一阶段已审批
+/start-testing           - 开始测试阶段（实现已审批）
+/start-deployment        - 开始部署阶段（测试已审批）
 
-【审批操作】
-/approve                 - 审批当前阶段
-/approve <阶段名>         - 审批指定阶段
-/approve <模块名>         - 审批指定模块
-- 使用时机：阶段或模块完成后
-- 功能：更新状态为approved，记录审批时间
+【审批与回滚】
+/approve <目标>          - 审批阶段或模块
+/rollback <目标> <原因>  - 回滚到指定阶段
 
-【回滚操作】
-/rollback <目标阶段> <原因>
-- 使用时机：发现问题需要返回之前阶段
-- 功能：重置目标阶段及之后所有阶段状态
-- 示例：/rollback requirements "发现需求遗漏"
-
-【状态查询】
-/status
-- 使用时机：任何时候快速查看项目状态
-- 功能：显示项目概览、当前阶段、模块进度、下一步建议
+【底层命令】（Slash Command内部调用，一般不直接使用）
+npm run solodev <命令>   - 命令体系模块CLI
+npm run context:phase    - 上下文加载（阶段级）
+npm run context:module   - 上下文加载（模块级）
+npm run validate:state   - 状态验证
+npm run validate:refs    - 文档引用验证
 ```
+
+### 工作流强制执行
+
+AI作为**严格的工作流执行者**，必须：
+1. 每次会话开始执行 `/session-start`
+2. 通过 Slash Command 执行所有阶段转换和审批
+3. 不跳过阶段，不绕过审批
+4. 按需加载上下文，避免不必要的token消耗
 
 ### 状态更新流程
 
