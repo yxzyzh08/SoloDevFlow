@@ -239,8 +239,11 @@ Read file_path=".claude/guides/code-standards.md"
    - 验证通过 → 继续
 2. 读取 .solodev/state.json
 3. 分析当前阶段（currentPhase）和当前进度
-4. 加载对应阶段的专项指南（见 5.2 节）
-5. 主动提示用户上次进度和建议的下一步行动
+4. （可选）使用命令快速查看状态：npm run solodev status
+   - 显示项目状态、当前阶段、模块进度
+   - 获取下一步建议
+5. 加载对应阶段的专项指南（见 5.2 节）
+6. 主动提示用户上次进度和建议的下一步行动
 ```
 
 ### 状态更新流程
@@ -314,6 +317,7 @@ Read file_path=".claude/guides/code-standards.md"
 - ✅ 每次会话开始必读 state.json
 - ✅ 及时更新状态（完成一个模块立即更新 + commit）
 - ✅ 提供清晰的上下文（告诉用户上次进度和下一步建议）
+- ✅ 使用命令查看状态（npm run solodev status）快速获取项目概览
 
 ### 文档生成原则
 
