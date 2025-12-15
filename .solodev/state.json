@@ -1294,9 +1294,9 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "a44a69e",
-    "lastGitCommitMessage": "docs(prd): 移除断点恢复机制需求，保留会话恢复能力",
-    "lastGitCommitAt": "2025-12-15T09:30:00Z",
+    "lastGitCommit": "cbcec40",
+    "lastGitCommitMessage": "docs(architecture): 根据评审补充/init命令和P2问题修复",
+    "lastGitCommitAt": "2025-12-15T10:00:00Z",
     "stateFileVersion": 30,
     "totalStateChanges": 30,
     "lastUpdatedAt": "2025-12-15T10:00:00Z",
