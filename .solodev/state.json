@@ -1777,11 +1777,11 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "69acedf",
-    "lastGitCommitMessage": "refactor(bootstrap): 优化自举工作流程规范结构",
-    "lastGitCommitAt": "2025-12-15T21:00:00Z",
-    "stateFileVersion": 46,
-    "totalStateChanges": 46,
+    "lastGitCommit": "6d639f5",
+    "lastGitCommitMessage": "chore(state): 标记命令体系模块实现完成",
+    "lastGitCommitAt": "2025-12-15T22:00:00Z",
+    "stateFileVersion": 47,
+    "totalStateChanges": 47,
     "lastUpdatedAt": "2025-12-15T22:00:00Z",
     "lastUpdatedBy": "ai"
   },
