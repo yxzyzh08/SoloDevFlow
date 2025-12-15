@@ -211,7 +211,12 @@
             "文档模板模块": {
               "status": "in_progress",
               "priority": "P0",
-              "startedAt": "2025-12-15T04:00:00Z"
+              "startedAt": "2025-12-15T04:00:00Z",
+              "artifacts": [
+                "docs/architecture/iteration-1/文档模板模块-00-系统架构总览.md",
+                "docs/architecture/iteration-1/文档模板模块-数据模型设计.md",
+                "docs/architecture/iteration-1/文档模板模块-集成设计.md"
+              ]
             },
             "影响分析模块": {
               "status": "pending",
@@ -230,7 +235,7 @@
             "currentModule": "文档模板模块",
             "completedModules": ["核心流程模型", "状态管理模块"],
             "remainingModules": ["文档模板模块", "命令体系模块", "影响分析模块", "测试验证模块", "Git集成模块"],
-            "nextAction": "设计文档模板模块架构（重点：4.4文档引用验证，这是stage1必需功能）"
+            "nextAction": "待用户审批文档模板模块架构设计（重点：4.4文档引用验证）"
           }
         },
         "implementation": {
@@ -946,6 +951,25 @@
       "artifacts": [
         "temp_report_3.md（评审报告）"
       ]
+    },
+    {
+      "timestamp": "2025-12-15T05:00:00Z",
+      "type": "architecture_design",
+      "description": "完成文档模板模块架构设计（m1-2进行中），待用户审批",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "architecture.modules.文档模板模块.artifacts",
+          "from": null,
+          "to": "3 architecture documents (系统架构总览、数据模型设计、集成设计)"
+        }
+      ],
+      "artifacts": [
+        "docs/architecture/iteration-1/文档模板模块-00-系统架构总览.md",
+        "docs/architecture/iteration-1/文档模板模块-数据模型设计.md",
+        "docs/architecture/iteration-1/文档模板模块-集成设计.md"
+      ],
+      "notes": "重点设计PRD 4.4文档引用验证功能（stage1必需）：5条验证规则、正则解析器、声明式验证配置"
     }
   ],
   "settings": {
@@ -953,12 +977,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "63992d4",
-    "lastGitCommitMessage": "feat(arch): 状态管理模块架构有条件通过审批",
+    "lastGitCommit": "81ac492",
+    "lastGitCommitMessage": "chore(state): 记录Git metadata更新",
     "lastGitCommitAt": "2025-12-15T04:00:00Z",
-    "stateFileVersion": 19,
-    "totalStateChanges": 19,
-    "lastUpdatedAt": "2025-12-15T04:00:00Z",
+    "stateFileVersion": 20,
+    "totalStateChanges": 20,
+    "lastUpdatedAt": "2025-12-15T05:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
