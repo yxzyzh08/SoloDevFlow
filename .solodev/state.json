@@ -1329,9 +1329,9 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "cbcec40",
-    "lastGitCommitMessage": "docs(architecture): 根据评审补充/init命令和P2问题修复",
-    "lastGitCommitAt": "2025-12-15T10:00:00Z",
+    "lastGitCommit": "d8921c8",
+    "lastGitCommitMessage": "docs(prd+arch): 完善/init命令为交互式并更新迭代规划",
+    "lastGitCommitAt": "2025-12-15T10:30:00Z",
     "stateFileVersion": 31,
     "totalStateChanges": 31,
     "lastUpdatedAt": "2025-12-15T10:30:00Z",
