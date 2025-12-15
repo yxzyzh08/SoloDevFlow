@@ -61,20 +61,23 @@
           {
             "id": "m1-2",
             "name": "文档模板模块架构设计",
-            "status": "in_progress",
+            "status": "completed",
             "startedAt": "2025-12-15T04:00:00Z",
+            "completedAt": "2025-12-15T06:00:00Z",
             "description": "完成文档模板模块架构设计（重点：4.4文档引用验证）"
           },
           {
             "id": "m1-3",
             "name": "state.json验证器实现",
-            "status": "pending",
+            "status": "in_progress",
+            "startedAt": "2025-12-15T06:00:00Z",
             "description": "实现状态管理模块的3.4节功能：格式验证、字段完整性检查"
           },
           {
             "id": "m1-4",
             "name": "文档引用验证器实现",
-            "status": "pending",
+            "status": "in_progress",
+            "startedAt": "2025-12-15T06:00:00Z",
             "description": "实现文档模板模块的4.4节功能：文件存在性、章节ID存在性、ID唯一性检查"
           },
           {
@@ -209,9 +212,11 @@
               "priority": "P0"
             },
             "文档模板模块": {
-              "status": "in_progress",
+              "status": "approved",
               "priority": "P0",
               "startedAt": "2025-12-15T04:00:00Z",
+              "approvedAt": "2025-12-15T06:00:00Z",
+              "approvedBy": "human",
               "artifacts": [
                 "docs/architecture/iteration-1/文档模板模块-00-系统架构总览.md",
                 "docs/architecture/iteration-1/文档模板模块-数据模型设计.md",
@@ -232,10 +237,10 @@
             }
           },
           "currentProcess": {
-            "currentModule": "文档模板模块",
-            "completedModules": ["核心流程模型", "状态管理模块"],
-            "remainingModules": ["文档模板模块", "命令体系模块", "影响分析模块", "测试验证模块", "Git集成模块"],
-            "nextAction": "待用户审批文档模板模块架构设计（重点：4.4文档引用验证）"
+            "currentModule": null,
+            "completedModules": ["核心流程模型", "状态管理模块", "文档模板模块"],
+            "remainingModules": ["命令体系模块", "影响分析模块", "测试验证模块", "Git集成模块"],
+            "nextAction": "进入Implementation阶段，实现最小验证工具（m1-3 state.json验证器 + m1-4 文档引用验证器）"
           }
         },
         "implementation": {
@@ -970,6 +975,35 @@
         "docs/architecture/iteration-1/文档模板模块-集成设计.md"
       ],
       "notes": "重点设计PRD 4.4文档引用验证功能（stage1必需）：5条验证规则、正则解析器、声明式验证配置"
+    },
+    {
+      "timestamp": "2025-12-15T06:00:00Z",
+      "type": "architecture_approved",
+      "description": "文档模板模块架构通过审批（m1-2完成），开始实现最小验证工具（m1-3 + m1-4）",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "architecture.modules.文档模板模块.status",
+          "from": "in_progress",
+          "to": "approved"
+        },
+        {
+          "field": "bootstrap.milestones.m1-2.status",
+          "from": "in_progress",
+          "to": "completed"
+        },
+        {
+          "field": "bootstrap.milestones.m1-3.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "bootstrap.milestones.m1-4.status",
+          "from": "pending",
+          "to": "in_progress"
+        }
+      ],
+      "notes": "进入Implementation阶段，并行实现两个验证器"
     }
   ],
   "settings": {
@@ -977,12 +1011,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "92535a2",
-    "lastGitCommitMessage": "feat(arch): 完成文档模板模块架构设计",
+    "lastGitCommit": "ef64a39",
+    "lastGitCommitMessage": "chore(state): 记录Git metadata更新",
     "lastGitCommitAt": "2025-12-15T05:00:00Z",
-    "stateFileVersion": 20,
-    "totalStateChanges": 20,
-    "lastUpdatedAt": "2025-12-15T05:00:00Z",
+    "stateFileVersion": 21,
+    "totalStateChanges": 21,
+    "lastUpdatedAt": "2025-12-15T06:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
