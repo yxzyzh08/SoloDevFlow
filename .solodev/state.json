@@ -1491,11 +1491,11 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "a669215",
-    "lastGitCommitMessage": "refactor(architecture): 简化影响分析模块为规范约定",
-    "lastGitCommitAt": "2025-12-15T15:00:00Z",
-    "stateFileVersion": 39,
-    "totalStateChanges": 39,
+    "lastGitCommit": "8eb6842",
+    "lastGitCommitMessage": "refactor(architecture): 简化测试验证模块为规范约定",
+    "lastGitCommitAt": "2025-12-15T16:00:00Z",
+    "stateFileVersion": 40,
+    "totalStateChanges": 40,
     "lastUpdatedAt": "2025-12-15T16:00:00Z",
     "lastUpdatedBy": "ai"
   },
