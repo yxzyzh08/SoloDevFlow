@@ -69,22 +69,28 @@
           {
             "id": "m1-3",
             "name": "state.json验证器实现",
-            "status": "in_progress",
+            "status": "completed",
             "startedAt": "2025-12-15T06:00:00Z",
-            "description": "实现状态管理模块的3.4节功能：格式验证、字段完整性检查"
+            "completedAt": "2025-12-15T07:00:00Z",
+            "description": "实现状态管理模块的3.4节功能：格式验证、字段完整性检查",
+            "artifacts": ["src/validators/state-validator.ts"]
           },
           {
             "id": "m1-4",
             "name": "文档引用验证器实现",
-            "status": "in_progress",
+            "status": "completed",
             "startedAt": "2025-12-15T06:00:00Z",
-            "description": "实现文档模板模块的4.4节功能：文件存在性、章节ID存在性、ID唯一性检查"
+            "completedAt": "2025-12-15T07:00:00Z",
+            "description": "实现文档模板模块的4.4节功能：文件存在性、章节ID存在性、ID唯一性检查",
+            "artifacts": ["src/validators/reference-validator.ts"]
           },
           {
             "id": "m1-5",
             "name": "现有文档全量验证",
-            "status": "pending",
-            "description": "对现有所有PRD和架构文档执行全量验证，修复发现的问题"
+            "status": "in_progress",
+            "startedAt": "2025-12-15T07:00:00Z",
+            "description": "对现有所有PRD和架构文档执行全量验证，修复发现的问题",
+            "notes": "验证已执行，发现11个缺失章节ID警告（非阻断）"
           }
         ]
       },
@@ -422,17 +428,6 @@
   "globalTasks": {
     "pending": [
       {
-        "id": "task-003",
-        "title": "补充修复建议到StateFileCorruptedError",
-        "description": "状态管理模块架构评审条件：在StateFileCorruptedError类中添加suggestions字段，提供JSON验证工具链接和Git恢复命令",
-        "priority": "P1",
-        "createdAt": "2025-12-15T04:00:00Z",
-        "deadline": "m1-3（state.json验证器实现之前）",
-        "relatedPhase": "architecture",
-        "affectedModules": ["状态管理模块"],
-        "source": "架构评审报告temp_report_3.md"
-      },
-      {
         "id": "task-004",
         "title": "添加上下文加载接口到StateManager",
         "description": "状态管理模块架构评审条件：在StateManager类中暴露getContextForPhase和getContextForModule接口（PRD 3.5）",
@@ -445,6 +440,19 @@
       }
     ],
     "completed": [
+      {
+        "id": "task-003",
+        "title": "补充修复建议到StateFileCorruptedError",
+        "description": "状态管理模块架构评审条件：在StateFileCorruptedError类中添加suggestions字段，提供JSON验证工具链接和Git恢复命令",
+        "priority": "P1",
+        "createdAt": "2025-12-15T04:00:00Z",
+        "completedAt": "2025-12-15T07:00:00Z",
+        "relatedPhase": "implementation",
+        "affectedModules": ["状态管理模块"],
+        "source": "架构评审报告temp_report_3.md",
+        "resolution": "在state-validator.ts中实现StateFileCorruptedError，包含3个修复建议：JSON验证工具链接、常见问题检查、Git恢复命令",
+        "artifacts": ["src/validators/state-validator.ts"]
+      },
       {
         "id": "task-001",
         "title": "确认是否进入architecture阶段",
@@ -1004,6 +1012,44 @@
         }
       ],
       "notes": "进入Implementation阶段，并行实现两个验证器"
+    },
+    {
+      "timestamp": "2025-12-15T07:00:00Z",
+      "type": "implementation_completed",
+      "description": "完成最小验证工具实现（m1-3 state.json验证器 + m1-4 文档引用验证器）",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "bootstrap.milestones.m1-3.status",
+          "from": "in_progress",
+          "to": "completed"
+        },
+        {
+          "field": "bootstrap.milestones.m1-4.status",
+          "from": "in_progress",
+          "to": "completed"
+        },
+        {
+          "field": "bootstrap.milestones.m1-5.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "globalTasks.task-003",
+          "from": "pending",
+          "to": "completed"
+        }
+      ],
+      "artifacts": [
+        "src/validators/state-validator.ts",
+        "src/validators/reference-validator.ts",
+        "src/validators/cli.ts",
+        "src/validators/index.ts",
+        "src/index.ts",
+        "package.json",
+        "tsconfig.json"
+      ],
+      "notes": "验证器已通过'使用即测试'验证：state.json验证通过，文档引用验证通过（11个缺失ID警告为非阻断）"
     }
   ],
   "settings": {
@@ -1011,12 +1057,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "6dcac95",
-    "lastGitCommitMessage": "feat(arch): 文档模板模块架构通过审批，开始实现验证工具",
+    "lastGitCommit": "6fdf1af",
+    "lastGitCommitMessage": "chore(state): 记录Git metadata更新",
     "lastGitCommitAt": "2025-12-15T06:30:00Z",
-    "stateFileVersion": 22,
-    "totalStateChanges": 22,
-    "lastUpdatedAt": "2025-12-15T06:30:00Z",
+    "stateFileVersion": 23,
+    "totalStateChanges": 23,
+    "lastUpdatedAt": "2025-12-15T07:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
