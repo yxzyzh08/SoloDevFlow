@@ -1050,6 +1050,31 @@
         "tsconfig.json"
       ],
       "notes": "验证器已通过'使用即测试'验证：state.json验证通过，文档引用验证通过（11个缺失ID警告为非阻断）"
+    },
+    {
+      "timestamp": "2025-12-15T07:30:00Z",
+      "type": "workflow_integration",
+      "description": "将验证器集成到CLAUDE.md工作流程",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "CLAUDE.md.会话开始流程",
+          "from": "4步骤",
+          "to": "5步骤（新增state.json验证）"
+        },
+        {
+          "field": "CLAUDE.md.文档生成流程",
+          "from": "5步骤",
+          "to": "6步骤（新增文档引用验证）"
+        },
+        {
+          "field": "CLAUDE.md.关键原则",
+          "from": "5个原则类别",
+          "to": "6个原则类别（新增验证原则）"
+        }
+      ],
+      "artifacts": ["CLAUDE.md"],
+      "notes": "验证工具正式成为开发流程的一部分，确保状态文件和文档引用的可靠性"
     }
   ],
   "settings": {
@@ -1057,12 +1082,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "4fcc3b8",
-    "lastGitCommitMessage": "feat(impl): 完成最小验证工具实现 (m1-3 + m1-4)",
-    "lastGitCommitAt": "2025-12-15T07:00:00Z",
-    "stateFileVersion": 24,
-    "totalStateChanges": 24,
-    "lastUpdatedAt": "2025-12-15T07:00:00Z",
+    "lastGitCommit": "20463c3",
+    "lastGitCommitMessage": "docs(规范): 将验证器集成到工作流程",
+    "lastGitCommitAt": "2025-12-15T07:30:00Z",
+    "stateFileVersion": 25,
+    "totalStateChanges": 25,
+    "lastUpdatedAt": "2025-12-15T07:30:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
