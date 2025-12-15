@@ -4,8 +4,12 @@
   "description": "AI超级个体开发助手 - 从需求到部署的完整人机协作开发闭环",
   "main": "dist/index.js",
   "type": "module",
+  "bin": {
+    "solodev": "./src/command-system/cli.ts"
+  },
   "scripts": {
     "build": "tsc",
+    "solodev": "npx tsx src/command-system/cli.ts",
     "validate:state": "npx tsx src/validators/cli.ts state",
     "validate:refs": "npx tsx src/validators/cli.ts refs",
     "validate:all": "npx tsx src/validators/cli.ts all",
