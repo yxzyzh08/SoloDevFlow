@@ -42,7 +42,8 @@
       },
       "stage1_minimal_tools": {
         "name": "阶段1：最小验证工具",
-        "status": "pending",
+        "status": "completed",
+        "completedAt": "2025-12-15T08:30:00Z",
         "description": "优先实现状态验证和文档引用验证，保证后续开发可靠性。使用即测试，不需要单独测试用例。",
         "scope": [
           "状态管理模块.3.4（状态验证）",
@@ -87,10 +88,12 @@
           {
             "id": "m1-5",
             "name": "现有文档全量验证",
-            "status": "in_progress",
+            "status": "completed",
             "startedAt": "2025-12-15T07:00:00Z",
+            "completedAt": "2025-12-15T08:30:00Z",
             "description": "对现有所有PRD和架构文档执行全量验证，修复发现的问题",
-            "notes": "验证已执行，发现11个缺失章节ID警告（非阻断）"
+            "notes": "验证通过，11个缺失章节ID警告已全部修复",
+            "artifacts": ["docs/architecture/iteration-1/核心流程模型-集成设计.md", "docs/architecture/iteration-1/状态管理模块-集成设计.md"]
           }
         ]
       },
@@ -107,8 +110,8 @@
         "milestones": []
       }
     },
-    "currentStage": "stage0_preparation",
-    "nextAction": "完成状态管理模块架构审批 → 设计文档模板模块架构 → 实现最小验证工具(state.json验证器 + 文档引用验证器) → 全量验证现有文档"
+    "currentStage": "stage1_minimal_tools",
+    "nextAction": "stage1已完成，所有最小验证工具已实现并验证通过。下一步：进入stage2（自举开始），用验证工具管理剩余模块的开发"
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -1096,6 +1099,37 @@
       ],
       "artifacts": ["src/context/context-loader.ts", "src/context/index.ts"],
       "notes": "实现getContextForPhase和getContextForModule接口，支持阶段级和模块级上下文加载，包含依赖过滤和错误处理"
+    },
+    {
+      "timestamp": "2025-12-15T08:30:00Z",
+      "type": "stage_completed",
+      "description": "完成Bootstrap Stage1：最小验证工具（m1-1至m1-5全部完成）",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "bootstrap.stage1_minimal_tools.status",
+          "from": "pending",
+          "to": "completed"
+        },
+        {
+          "field": "bootstrap.milestones.m1-5.status",
+          "from": "in_progress",
+          "to": "completed"
+        },
+        {
+          "field": "缺失章节ID",
+          "from": "11个警告",
+          "to": "全部修复"
+        }
+      ],
+      "artifacts": [
+        "src/validators/state-validator.ts",
+        "src/validators/reference-validator.ts",
+        "src/context/context-loader.ts",
+        "docs/architecture/iteration-1/核心流程模型-集成设计.md",
+        "docs/architecture/iteration-1/状态管理模块-集成设计.md"
+      ],
+      "notes": "Stage1完成：state.json验证器、文档引用验证器、上下文加载接口均已实现并通过'使用即测试'验证"
     }
   ],
   "settings": {
@@ -1103,12 +1137,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "3762bb2",
-    "lastGitCommitMessage": "feat(context): 实现上下文加载接口 (task-004)",
-    "lastGitCommitAt": "2025-12-15T08:00:00Z",
-    "stateFileVersion": 26,
-    "totalStateChanges": 26,
-    "lastUpdatedAt": "2025-12-15T08:00:00Z",
+    "lastGitCommit": "24be61b",
+    "lastGitCommitMessage": "docs(templates): 添加章节ID规范到所有模板和文档",
+    "lastGitCommitAt": "2025-12-15T08:30:00Z",
+    "stateFileVersion": 27,
+    "totalStateChanges": 27,
+    "lastUpdatedAt": "2025-12-15T08:30:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
