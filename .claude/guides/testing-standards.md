@@ -213,50 +213,16 @@ Testing阶段完成
 
 ## 七、Git Commit策略
 
-### Implementation阶段
+**详细规范**：参见 `.claude/guides/git-integration.md`
 
-```bash
-# 模块1实现完成后（包含业务代码 + 单元测试 + 集成测试）
-git commit -m "feat(用户模块): 实现getUserInfo + 单元测试 + 集成测试
+**Testing阶段特殊规则**：
 
-- 实现getUserInfo接口
-- 单元测试覆盖率：100%
-- 集成测试：验证与数据库的交互
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
-```
-
-### Testing阶段
-
-```bash
-# E2E测试完成后
-git commit -m "test(e2e): 添加E2E测试，覆盖所有用户故事
-
-- E2E测试计划：覆盖10个用户故事
-- 测试结果：全部通过
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
-
-# 性能测试完成后
-git commit -m "test(performance): 添加性能测试，验证响应时间和并发指标
-
-- 性能测试方案：响应时间 < 200ms, 并发1000
-- 测试结果：所有指标达标
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
-
-# 混沌测试完成后
-git commit -m "test(chaos): 添加混沌测试，验证系统鲁棒性
-
-- 混沌测试方案：数据库故障、网络延迟、并发冲突等
-- 测试结果：系统正确处理所有故障场景
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
-```
+| 阶段 | Type | Scope | 示例 |
+|------|------|-------|------|
+| **Implementation** | `feat` | 模块名 | `feat(用户模块): 实现getUserInfo + 测试` |
+| **Testing (E2E)** | `test` | `e2e` | `test(e2e): 添加E2E测试` |
+| **Testing (性能)** | `test` | `performance` | `test(performance): 添加性能测试` |
+| **Testing (混沌)** | `test` | `chaos` | `test(chaos): 添加混沌测试` |
 
 ---
 

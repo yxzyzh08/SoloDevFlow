@@ -189,140 +189,41 @@ Read file_path=".claude/guides/code-standards.md"
 
 ### 5.4 专项指南概要
 
+> 以下仅列出关键规则。详细内容请阅读对应专项指南。
+
 #### state-management.md（项目状态管理）
-
-**适用阶段**：所有阶段
-
-**核心内容**：
-- state.json的作用和使用方式
-- 每次会话开始时的操作步骤
-- state.json + state_his.json拆分机制
-- 历史数据访问规则（影响分析）
-- 特殊场景处理（state.json不存在、损坏、回滚）
-- **状态验证**（npm run validate:state）
-
-**关键规则**：
-- ✅ 每次会话开始先验证state.json格式
-- ✅ 每次会话开始必读state.json
-- ✅ 完成一个模块立即更新state.json + Git commit
-- ✅ 迭代完成时迁移到state_his.json
-
----
+- 适用阶段：所有阶段
+- 关键规则：会话开始先验证state.json → 必读state.json → 及时更新+commit
 
 #### template-usage.md（文档模板使用）
-
-**适用阶段**：Requirements, Architecture, Testing, Deployment
-
-**核心内容**：
-- 14个文档模板的位置和用途
-- 模板变量系统（[项目名称]、[版本号]等）
-- 模板使用流程（各阶段如何填充模板）
-- 模板填充示例
-- 实践原则（模板即规范、变量优先从state.json读取）
-- **文档引用验证**（npm run validate:refs）
-
-**关键规则**：
-- ✅ 所有文档必须基于模板生成
-- ✅ 生成时立即填充变量，不保留占位符
-- ✅ 变量优先从state.json读取
-- ✅ 生成后验证文档引用关系
-
----
+- 适用阶段：Requirements, Architecture, Testing, Deployment
+- 关键规则：所有文档基于模板生成 → 立即填充变量 → 生成后验证引用
 
 #### code-standards.md（代码规范）
-
-**适用阶段**：Implementation
-
-**核心内容**：
-- @integration集成点标注规范（强制要求）
-- 标注格式和示例
-- 何时需要标注（调用其他模块 vs 无需标注）
-- AI实现代码时的职责（自动添加标注）
-- 标注的使用场景（影响分析、依赖验证）
-
-**关键规则**：
-- ✅ 所有调用外部模块的代码必须添加 @integration 标注
-- ✅ 标注格式：`// @integration [模块名].[接口名]`
-- ✅ 模块名必须与state.json一致
-- ✅ 发现遗漏的集成点立即回滚到架构阶段
-
----
+- 适用阶段：Implementation
+- 关键规则：所有调用外部模块必须添加 @integration 标注 → 格式：`// @integration [模块名].[接口名]`
 
 #### testing-standards.md（测试规范）
-
-**适用阶段**：Implementation（单元测试+集成测试）, Testing（E2E+性能+混沌）
-
-**核心内容**：
-- 测试阶段划分（Implementation阶段 vs Testing阶段）
-- 单元测试覆盖率要求（100%强制）
-- 测试用例自动生成规范（基于架构文档生成）
-- 测试失败根因分析流程（分层分析 + 回滚决策）
-- Testing阶段的审批流程（3次审批点：E2E → 性能 → 混沌）
-
-**关键规则**：
-- ✅ 单元测试覆盖率100%是底线
-- ✅ Testing阶段测试文档先行（先审批再生成代码）
-- ✅ 测试失败必须找到根因（分层分析 + 人工确认）
-- ✅ 渐进式测试执行（E2E通过 → 性能通过 → 混沌通过）
-
----
+- 适用阶段：Implementation, Testing
+- 关键规则：单元测试覆盖率100% → 测试文档先行 → 失败必须找到根因
 
 #### git-integration.md（Git集成规范）
+- 适用阶段：所有阶段
+- 关键规则：高频自动commit → 格式：`<type>(<scope>): <subject>` → 同一操作合并commit
 
-**适用阶段**：所有阶段
-
-**核心内容**：
-- 核心理念（高频自动提交）
-- 分支策略（单分支：仅main分支）
-- 版本号规范（语义化版本：vMAJOR.MINOR.PATCH）
-- Commit规范（Conventional Commits简化版，中文）
-- 自动Commit策略（8种触发条件）
-- 热修复处理（简化流程，直接在当前迭代修复）
-- 版本回滚（通过Git tag回滚）
-
-**关键规则**：
-- ✅ 高频自动commit（每次有意义的状态变更）
-- ✅ Commit message格式：`<type>(<scope>): <subject>`
-- ✅ 同一操作的多个文件合并为1次commit
-- ✅ Hotfix必须包含[HOTFIX]前缀，版本号+1
-- ✅ Tag与迭代严格对应
+#### bootstrap-workflow.md（自举工作流程）
+- 适用阶段：Bootstrap阶段
+- 关键规则：功能完成→验证→文档化→Git提交→验证集成（4步流程）
 
 ---
 
 ### 5.5 实践原则
 
-**1. 按需加载专项指南**
+**按需加载**：根据当前阶段只加载必需的专项指南，避免加载所有指南浪费token
 
-```
-✅ 正确做法：
-- Requirements阶段：只加载 state-management + template-usage + git-integration
-- Implementation阶段：加载 state-management + code-standards + git-integration
+**权威来源**：用户询问具体规范时，优先读取对应专项指南，基于指南内容回答
 
-❌ 错误做法：
-- 每次都加载所有5个专项指南
-- 浪费token和时间
-```
-
-**2. 专项指南是权威来源**
-
-```
-✅ 正确做法：
-- 用户询问"如何使用模板？" → 读取 template-usage.md → 基于指南回答
-
-❌ 错误做法：
-- 凭记忆回答（可能不准确或遗漏关键细节）
-```
-
-**3. 核心规范与专项指南互补**
-
-```
-CLAUDE.md（本文件）：定义AI角色、行为原则、输出结构、引用机制
-专项指南：提供详细的操作规范、示例、流程图、实践原则
-
-✅ 正确理解：
-- CLAUDE.md回答"是什么"、"为什么"
-- 专项指南回答"怎么做"、"如何避免错误"
-```
+**职责分离**：CLAUDE.md定义"是什么、为什么"，专项指南提供"怎么做、如何避免错误"
 
 ---
 
