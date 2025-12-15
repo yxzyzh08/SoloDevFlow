@@ -1579,12 +1579,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "474efbf",
-    "lastGitCommitMessage": "feat(implementation): 实现状态管理模块核心代码",
-    "lastGitCommitAt": "2025-12-15T18:00:00Z",
-    "stateFileVersion": 43,
-    "totalStateChanges": 43,
-    "lastUpdatedAt": "2025-12-15T18:00:00Z",
+    "lastGitCommit": "aec017e",
+    "lastGitCommitMessage": "chore(bootstrap): 正式化自举工作流程规范",
+    "lastGitCommitAt": "2025-12-15T20:00:00Z",
+    "stateFileVersion": 44,
+    "totalStateChanges": 44,
+    "lastUpdatedAt": "2025-12-15T20:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
