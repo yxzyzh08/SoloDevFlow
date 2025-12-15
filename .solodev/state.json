@@ -1556,6 +1556,22 @@
         "不需要专用命令（/rollback、/hotfix等）",
         "规范整合到CLAUDE.md专项指南中"
       ]
+    },
+    {
+      "timestamp": "2025-12-15T20:00:00Z",
+      "type": "requirements_supplement",
+      "description": "补充自举阶段特殊规范：功能完成后的规范文档化流程",
+      "changedBy": "ai",
+      "trigger": "用户发现自举阶段每完成一个功能都需要修改工程规范，提出正式化需求",
+      "changes": [
+        {
+          "field": "CLAUDE.md",
+          "from": "第二节行为原则",
+          "to": "新增第二.五节：自举阶段特殊规范（Bootstrap Workflow）"
+        }
+      ],
+      "artifacts": ["CLAUDE.md"],
+      "notes": "自举工作流程已正式化：功能实现 → 功能验证 → 规范文档化（4个位置） → Git提交（workflow_integration类型） → 集成验证。包含自举功能清单跟踪表和4条实践原则。"
     }
   ],
   "settings": {
