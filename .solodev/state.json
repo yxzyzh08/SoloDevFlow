@@ -120,14 +120,11 @@
           {
             "id": "m2-2",
             "name": "Git集成模块架构设计",
-            "status": "in_progress",
+            "status": "not_applicable",
             "startedAt": "2025-12-15T11:00:00Z",
-            "description": "完成Git集成模块架构设计（系统总览、数据模型、集成设计）",
-            "artifacts": [
-              "docs/architecture/iteration-1/Git集成模块-00-系统架构总览.md",
-              "docs/architecture/iteration-1/Git集成模块-数据模型设计.md",
-              "docs/architecture/iteration-1/Git集成模块-集成设计.md"
-            ]
+            "completedAt": "2025-12-15T13:00:00Z",
+            "description": "Git集成模块简化为规范约定，不需要代码实现，无需架构设计",
+            "notes": "评审后发现Git集成应直接复用Git命令，不过度封装。PRD已简化，架构文档已删除。"
           },
           {
             "id": "m2-3",
@@ -151,7 +148,7 @@
       }
     },
     "currentStage": "stage2_self_hosting",
-    "nextAction": "stage2进行中：Git集成模块架构设计已完成，待用户审批。审批通过后继续影响分析模块架构设计"
+    "nextAction": "Git集成模块简化为规范约定（无需架构）。准备进入Implementation阶段实现最小自举工具（命令体系模块）"
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -292,21 +289,16 @@
               "priority": "P1"
             },
             "Git集成模块": {
-              "status": "in_progress",
+              "status": "not_applicable",
               "priority": "P0",
-              "startedAt": "2025-12-15T11:00:00Z",
-              "artifacts": [
-                "docs/architecture/iteration-1/Git集成模块-00-系统架构总览.md",
-                "docs/architecture/iteration-1/Git集成模块-数据模型设计.md",
-                "docs/architecture/iteration-1/Git集成模块-集成设计.md"
-              ]
+              "notes": "Git集成模块是规范约定，不需要代码实现，无需架构设计。规范已在PRD中定义。"
             }
           },
           "currentProcess": {
-            "currentModule": "Git集成模块",
+            "currentModule": null,
             "completedModules": ["核心流程模型", "状态管理模块", "文档模板模块", "命令体系模块"],
             "remainingModules": ["影响分析模块", "测试验证模块"],
-            "nextAction": "Git集成模块架构设计已完成，待用户审批。审批通过后继续影响分析模块架构设计"
+            "nextAction": "Git集成模块简化为规范约定（无需架构），准备进入Implementation阶段实现最小自举工具"
           }
         },
         "implementation": {
@@ -1396,6 +1388,36 @@
         "docs/architecture/iteration-1/Git集成模块-集成设计.md"
       ],
       "notes": "Git集成模块架构设计要点：AI驱动Commit生成、单分支策略、语义化版本、与状态管理/命令体系模块的集成"
+    },
+    {
+      "timestamp": "2025-12-15T13:00:00Z",
+      "type": "requirements_simplification",
+      "description": "简化Git集成模块：从代码实现改为规范约定",
+      "changedBy": "ai",
+      "trigger": "用户评审指出Git集成应'直接复用Git，不过度封装'",
+      "changes": [
+        {
+          "field": "docs/PRD/modules/Git集成模块-PRD.md",
+          "from": "662行，含代码实现暗示（模块划分、详细工作流）",
+          "to": "251行，纯规范约定（触发时机、message格式、版本号规范）"
+        },
+        {
+          "field": "architecture.modules.Git集成模块",
+          "from": "in_progress（3个架构文档）",
+          "to": "not_applicable（不需要架构设计）"
+        },
+        {
+          "field": "架构文档",
+          "from": "Git集成模块-00/数据模型/集成设计.md",
+          "to": "已删除（不需要代码架构）"
+        }
+      ],
+      "rationale": [
+        "Git本身是成熟工具，AI直接调用git命令即可",
+        "不需要代码封装Git操作",
+        "不需要专用命令（/rollback、/hotfix等）",
+        "规范整合到CLAUDE.md专项指南中"
+      ]
     }
   ],
   "settings": {
@@ -1403,12 +1425,12 @@
     "requireApprovalForPhaseTransition": true
   },
   "metadata": {
-    "lastGitCommit": "5a833cb",
-    "lastGitCommitMessage": "docs(architecture): 完成Git集成模块架构设计",
+    "lastGitCommit": "2865604",
+    "lastGitCommitMessage": "chore(state): 更新Git元数据",
     "lastGitCommitAt": "2025-12-15T12:00:00Z",
-    "stateFileVersion": 33,
-    "totalStateChanges": 33,
-    "lastUpdatedAt": "2025-12-15T12:00:00Z",
+    "stateFileVersion": 34,
+    "totalStateChanges": 34,
+    "lastUpdatedAt": "2025-12-15T13:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
