@@ -99,9 +99,41 @@
       },
       "stage2_self_hosting": {
         "name": "阶段2：自举开始",
-        "status": "pending",
+        "status": "in_progress",
+        "startedAt": "2025-12-15T09:00:00Z",
         "description": "用第一阶段开发的工具来管理剩余功能的开发",
-        "milestones": []
+        "milestones": [
+          {
+            "id": "m2-1",
+            "name": "命令体系模块架构设计",
+            "status": "in_progress",
+            "startedAt": "2025-12-15T09:00:00Z",
+            "description": "完成命令体系模块架构设计（系统总览、数据模型、集成设计）",
+            "artifacts": [
+              "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
+              "docs/architecture/iteration-1/命令体系模块-数据模型设计.md",
+              "docs/architecture/iteration-1/命令体系模块-集成设计.md"
+            ]
+          },
+          {
+            "id": "m2-2",
+            "name": "Git集成模块架构设计",
+            "status": "pending",
+            "description": "完成Git集成模块架构设计"
+          },
+          {
+            "id": "m2-3",
+            "name": "影响分析模块架构设计",
+            "status": "pending",
+            "description": "完成影响分析模块架构设计"
+          },
+          {
+            "id": "m2-4",
+            "name": "测试验证模块架构设计",
+            "status": "pending",
+            "description": "完成测试验证模块架构设计"
+          }
+        ]
       },
       "stage3_complete_bootstrap": {
         "name": "阶段3：完整自举",
@@ -110,8 +142,8 @@
         "milestones": []
       }
     },
-    "currentStage": "stage1_minimal_tools",
-    "nextAction": "stage1已完成，所有最小验证工具已实现并验证通过。下一步：进入stage2（自举开始），用验证工具管理剩余模块的开发"
+    "currentStage": "stage2_self_hosting",
+    "nextAction": "stage2进行中：命令体系模块架构设计已完成，待用户审批。审批通过后继续Git集成模块架构设计"
   },
   "currentIteration": "iteration-1",
   "iterations": {
@@ -217,8 +249,14 @@
               ]
             },
             "命令体系模块": {
-              "status": "pending",
-              "priority": "P0"
+              "status": "in_progress",
+              "priority": "P0",
+              "startedAt": "2025-12-15T09:00:00Z",
+              "artifacts": [
+                "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
+                "docs/architecture/iteration-1/命令体系模块-数据模型设计.md",
+                "docs/architecture/iteration-1/命令体系模块-集成设计.md"
+              ]
             },
             "文档模板模块": {
               "status": "approved",
@@ -246,10 +284,10 @@
             }
           },
           "currentProcess": {
-            "currentModule": null,
+            "currentModule": "命令体系模块",
             "completedModules": ["核心流程模型", "状态管理模块", "文档模板模块"],
-            "remainingModules": ["命令体系模块", "影响分析模块", "测试验证模块", "Git集成模块"],
-            "nextAction": "进入Implementation阶段，实现最小验证工具（m1-3 state.json验证器 + m1-4 文档引用验证器）"
+            "remainingModules": ["Git集成模块", "影响分析模块", "测试验证模块"],
+            "nextAction": "命令体系模块架构设计已完成，待用户审批。审批通过后继续Git集成模块架构设计"
           }
         },
         "implementation": {
@@ -1130,6 +1168,40 @@
         "docs/architecture/iteration-1/状态管理模块-集成设计.md"
       ],
       "notes": "Stage1完成：state.json验证器、文档引用验证器、上下文加载接口均已实现并通过'使用即测试'验证"
+    },
+    {
+      "timestamp": "2025-12-15T09:00:00Z",
+      "type": "architecture_design",
+      "description": "进入Bootstrap Stage2，完成命令体系模块架构设计",
+      "changedBy": "ai",
+      "changes": [
+        {
+          "field": "bootstrap.currentStage",
+          "from": "stage1_minimal_tools",
+          "to": "stage2_self_hosting"
+        },
+        {
+          "field": "bootstrap.stage2_self_hosting.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "architecture.modules.命令体系模块.status",
+          "from": "pending",
+          "to": "in_progress"
+        },
+        {
+          "field": "architecture.modules.命令体系模块.artifacts",
+          "from": null,
+          "to": "3 architecture documents (系统架构总览、数据模型设计、集成设计)"
+        }
+      ],
+      "artifacts": [
+        "docs/architecture/iteration-1/命令体系模块-00-系统架构总览.md",
+        "docs/architecture/iteration-1/命令体系模块-数据模型设计.md",
+        "docs/architecture/iteration-1/命令体系模块-集成设计.md"
+      ],
+      "notes": "命令体系模块架构设计要点：Command-as-Configuration模式、5大审批点机制、上下文驱动执行、与状态管理/核心流程/文档模板/Git模块的集成设计"
     }
   ],
   "settings": {
@@ -1140,9 +1212,9 @@
     "lastGitCommit": "24be61b",
     "lastGitCommitMessage": "docs(templates): 添加章节ID规范到所有模板和文档",
     "lastGitCommitAt": "2025-12-15T08:30:00Z",
-    "stateFileVersion": 27,
-    "totalStateChanges": 27,
-    "lastUpdatedAt": "2025-12-15T08:30:00Z",
+    "stateFileVersion": 28,
+    "totalStateChanges": 28,
+    "lastUpdatedAt": "2025-12-15T09:00:00Z",
     "lastUpdatedBy": "ai"
   },
   "templateVersions": {
