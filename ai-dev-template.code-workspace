@@ -5,8 +5,12 @@
       "path": "."
     },
     {
-      "name": "🧪 Demo Project (测试项目)",
-      "path": "../demo-project"
+      "name": "🧪 SoloDevFLow2(新项目)",
+      "path": "../SoloDevFLow2"
+    },
+    {
+      "name": "📦 Decspec(老项目)",
+      "path": "../Decspec"
     }
   ],
   "settings": {
